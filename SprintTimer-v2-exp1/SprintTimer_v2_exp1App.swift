@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct SprintTimer_v2_exp1App: App {
+    
+    @StateObject var viewRouter = ViewRouter()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewRouter: viewRouter).environmentObject(viewRouter)
         }
     }
 }

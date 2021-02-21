@@ -8,14 +8,38 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject var viewRouter: ViewRouter
+    @StateObject var timer: SprintTimer = SprintTimer()
+    
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            ZStack {    /// Need ZStack for View transitions to work.
+                switch viewRouter.currentPage {
+                case .timerSelectView:
+                    TimerSelectView()
+//                        .transition(AnyTransition.scale
+//                                        .animation(
+//                                            .easeInOut(duration: 0.5)))
+                case .timerEditView:
+                    TimerEditView(viewRouter.selectedTimer, newTimer: viewRouter.newTimer)
+                case .timerDetailView:
+                    TimerDetailView(viewRouter.selectedTimer)
+                    
+//                default:
+//                    EmptyView()
+                }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .padding(0)
+        .accentColor(Color("AccentColor"))
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(viewRouter: ViewRouter()).environmentObject(ViewRouter())
     }
 }
