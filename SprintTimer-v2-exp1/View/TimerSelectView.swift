@@ -12,7 +12,7 @@ struct TimerSelectView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     
     @ObservedObject var timerDataController: SprintTimerDataController = SprintTimerDataController()
-    @State private var editMode: EditMode = .inactive
+    //@State private var editMode: EditMode = .inactive
     
     
     var body: some View {
@@ -47,18 +47,19 @@ struct TimerSelectView: View {
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                // Edit Mode toggle to delete timers.
-                Button(action: {
-                    editMode = editMode == .inactive ? .active : .inactive
-                }) {
-                    HStack(spacing: 10) {
-                        Text(editMode == .inactive ? "Edit" : "Done")
-                    }
-                }
+                EditButton()
+//                // Edit Mode toggle to delete timers.
+//                Button(action: {
+//                    editMode = editMode == .inactive ? .active : .inactive
+//                }) {
+//                    HStack(spacing: 10) {
+//                        Text(editMode == .inactive ? "Edit" : "Done")
+//                    }
+//                }
             }
         }
         .navigationBarTitle("Timer Select", displayMode: .inline)
-        .environment(\.editMode, $editMode)
+        //.environment(\.editMode, $editMode)
     }
     
 }

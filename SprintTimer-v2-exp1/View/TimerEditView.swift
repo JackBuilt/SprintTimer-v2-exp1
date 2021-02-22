@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+enum ActiveSheet: Identifiable {
+    case addItem, editItem
+    
+    var id: Int {
+        hashValue
+    }
+}
+
+
 struct TimerEditView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
@@ -15,8 +24,8 @@ struct TimerEditView: View {
     @ObservedObject var sprintTimer: SprintTimer
     
     //@State private var selectedItem: SprintTimerItem = SprintTimerItem()
-    //@State private var editMode: EditMode = .inactive
-    @State private var showEditItemView: Bool = false
+    @Environment(\.editMode) private var editMode: Binding<EditMode>?
+    @State private var showItemView: ActiveSheet?
     @State private var showDeleteAlert: Bool = false
     private var isNew: Bool
     
@@ -33,6 +42,7 @@ struct TimerEditView: View {
     var body: some View {
         
         VStack {
+            
             /// TIMER TITLE
             HStack {
                 Spacer()
@@ -43,10 +53,16 @@ struct TimerEditView: View {
                 Spacer()
             }
             
+            
             /// ITEMS ARRAY LIST
             List {
                 ForEach(sprintTimer.items) { item in
-                    getTimerItemLabel(timer: item)
+                    Button(action: {
+                        /// go to edit item view.
+                        showItemView = .editItem
+                    }, label: {
+                        getTimerItemLabel(timer: item)
+                    })
                 }
                 .onDelete(perform: onDelete)
                 .onMove(perform: onMove)
@@ -56,7 +72,8 @@ struct TimerEditView: View {
                     BackButton
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                    ///EditButton()  /// EditButton() by default cancels reorder of list when done.
+                    EditButton
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     AddButton
@@ -68,11 +85,16 @@ struct TimerEditView: View {
                 /// Reset the isNew flag in viewRouter. This works but maybe there is a better way?
                 viewRouter.newTimer = false
             })
-            .sheet(isPresented: $showEditItemView) {
-                EditItemView()
+            .sheet(item: $showItemView) { item in
+                switch item {
+                case .editItem:
+                    EditItemView()
+                case .addItem:
+                    AddItemView()
+                }
                     //.onDisappear(perform: updateItemsList)
             }
-            /// Action sheet: DELETE
+            /// Action sheet: DELETE ALERT
             .actionSheet(isPresented: $showDeleteAlert, content: {
                 ActionSheet(
                     title: Text("Delete Timer?"),
@@ -85,7 +107,6 @@ struct TimerEditView: View {
                     ]
                 )
             })
-            
             
             
             /// BUTTONS
@@ -121,17 +142,15 @@ struct TimerEditView: View {
     }
     
     
-//    private var EditButton: some View {
-//        return AnyView(
-//            Button(action: {
-//                editMode = editMode == .inactive ? .active : .inactive
-//            }) {
-//                HStack(spacing: 10) {
-//                    Text(editMode == .inactive ? "Edit" : "Done")
-//                }
-//            }
-//        )
-//    }
+    private var EditButton: some View {
+        return AnyView(
+            Button(action: {
+                self.editMode?.wrappedValue.toggle()
+            }) {
+                Text(self.editMode?.wrappedValue == .active ? "Done" : "Edit")
+            }
+        )
+    }
     
     private var BackButton: some View {
         return AnyView(
@@ -148,7 +167,7 @@ struct TimerEditView: View {
     private var AddButton: some View {
         return AnyView(
             Button(action: {
-                showEditItemView = true
+                showItemView = .addItem
             }) {
                 HStack(spacing: 10) {
                     Image(systemName: "plus.square.fill")
@@ -219,6 +238,11 @@ struct TimerEditView: View {
 }
 
 
+extension EditMode {
+    mutating func toggle() {
+        self = self == .active ? .inactive : .active
+    }
+}
 
 
 struct TimerEditView_Previews: PreviewProvider {

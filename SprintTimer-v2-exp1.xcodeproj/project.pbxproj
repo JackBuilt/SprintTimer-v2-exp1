@@ -23,6 +23,7 @@
 		04B0D71425E2BD9600A7C462 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D71325E2BD9600A7C462 /* Color.swift */; };
 		04B0D71725E2DCD200A7C462 /* Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D71625E2DCD200A7C462 /* Fetch.swift */; };
 		04B0D71A25E2F33700A7C462 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D71925E2F33700A7C462 /* EditItemView.swift */; };
+		04B0D71D25E32A5F00A7C462 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D71C25E32A5F00A7C462 /* AddItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		04B0D71325E2BD9600A7C462 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		04B0D71625E2DCD200A7C462 /* Fetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetch.swift; sourceTree = "<group>"; };
 		04B0D71925E2F33700A7C462 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
+		04B0D71C25E32A5F00A7C462 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 				04B0D70C25E2B20900A7C462 /* TimerDetailView.swift */,
 				04B0D71025E2BD6400A7C462 /* TimerButton.swift */,
 				04B0D71925E2F33700A7C462 /* EditItemView.swift */,
+				04B0D71C25E32A5F00A7C462 /* AddItemView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				04B0D6EA25E203DB00A7C462 /* SprintTimer.swift in Sources */,
 				04B0D70525E2B05D00A7C462 /* TimerEditView.swift in Sources */,
 				04B0D6FE25E2119F00A7C462 /* SprintTimerLabel.swift in Sources */,
+				04B0D71D25E32A5F00A7C462 /* AddItemView.swift in Sources */,
 				04B0D6DB25E2036B00A7C462 /* ContentView.swift in Sources */,
 				04B0D71425E2BD9600A7C462 /* Color.swift in Sources */,
 				04B0D71725E2DCD200A7C462 /* Fetch.swift in Sources */,
