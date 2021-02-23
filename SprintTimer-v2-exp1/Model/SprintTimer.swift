@@ -41,6 +41,12 @@ class SprintTimerItem: Identifiable, Decodable, Encodable {
         self.type = .none
         self.duration = -1
     }
+    
+    init(_ type: TimerType, _ seconds: Int) {
+        self.id = UUID()
+        self.type = type
+        self.duration = seconds
+    }
 }
 
 
@@ -96,6 +102,26 @@ enum TimerType: Decodable, Encodable {
             try container.encode("Cooldown")
 //        default:
 //            fatalError()
+        }
+    }
+    
+    /// Returns a friendly display name.
+    static func displayName(_ type: TimerType) -> String {
+        switch type {
+        case .warmup:
+            return "Warmup"
+        case .easyPace:
+            return "Easy Pace"
+        case .mediumPace:
+            return "Medium Pace"
+        case .fastPace:
+            return "Fast Pace"
+        case .sprint:
+            return "Sprint"
+        case .cooldown:
+            return "Cooldown"
+        default:
+            return ""
         }
     }
     

@@ -23,14 +23,14 @@ struct TimerEditView: View {
     @ObservedObject var timerDataController: SprintTimerDataController = SprintTimerDataController()
     @ObservedObject var sprintTimer: SprintTimer
     
-    //@State private var selectedItem: SprintTimerItem = SprintTimerItem()
     @Environment(\.editMode) private var editMode: Binding<EditMode>?
+    
     @State private var showItemView: ActiveSheet?
     @State private var showDeleteAlert: Bool = false
+    @State private var selectedItem: SprintTimerItem = SprintTimerItem()
     private var isNew: Bool
-    
-    
-    
+
+
     init(_ sprintTimer: SprintTimer, newTimer: Bool = false)
     {
         self.sprintTimer = sprintTimer
@@ -38,78 +38,92 @@ struct TimerEditView: View {
     }
     
     
-    
     var body: some View {
         
         VStack {
             
-            /// TIMER TITLE
-            HStack {
-                Spacer()
-                Text("\(sprintTimer.name)")
-                    .font(.title2)
-                    .foregroundColor(.orange)
-                    .padding(10)
-                Spacer()
+            Section {
+                HStack {
+                    Text("Timer Name")
+                        .font(.title2)
+                        .padding(.trailing, 20)
+                    Spacer()
+                    TextField("Name", text: $sprintTimer.name)
+                        .padding(.leading, 10)
+                        .padding(3)
+                        .background(Color("TextFieldBG"))
+                        .cornerRadius(5.0)
+                        .padding(3)
+                        .font(.title2)
+                }
+                .padding(.top, 20)
             }
+            .padding(.leading, 20)
+            .padding(.trailing, 20)
             
-            
-            /// ITEMS ARRAY LIST
-            List {
-                ForEach(sprintTimer.items) { item in
-                    Button(action: {
-                        /// go to edit item view.
-                        showItemView = .editItem
-                    }, label: {
-                        getTimerItemLabel(timer: item)
-                    })
+            Section {
+                List {
+                    ForEach(sprintTimer.items) { item in
+                        Button(action: {
+                            /// go to edit item view.
+                            selectedItem = item
+                            showItemView = .editItem
+                        }, label: {
+                            getTimerItemLabel(timer: item)
+                        })
+                    }
+                    .onDelete(perform: onDelete)
+                    .onMove(perform: onMove)
                 }
-                .onDelete(perform: onDelete)
-                .onMove(perform: onMove)
+                .listStyle(InsetGroupedListStyle())
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        BackButton
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        ///EditButton()  /// EditButton() by default cancels reorder of list when done.
+                        EditButton
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        AddButton
+                    }
+                }
+                .navigationBarTitle(viewRouter.newTimer ? "New Timer" : "Edit Timer",
+                                    displayMode: .inline)
+                .onDisappear(perform: {
+                    /// Reset the isNew flag in viewRouter. This works but maybe there is a better way?
+                    viewRouter.newTimer = false
+                })
+                .sheet(item: $showItemView) { item in
+                    switch item {
+                    case .editItem:
+                        EditItemView(self.selectedItem)
+                    case .addItem:
+                        AddItemView(self.sprintTimer)
+                            //.onDisappear(perform: updateItemsList)
+                    }
+                    /// To hide the sheet just set activeSheet = nil        (showItemView = nil)
+                    /// Bonus: If you want your sheet to be fullscreen, then use the very same code,
+                    /// but instead of .sheet write .fullScreenCover
+                }
+                /// Action sheet: DELETE ALERT
+                .actionSheet(isPresented: $showDeleteAlert, content: {
+                    ActionSheet(
+                        title: Text("Delete Timer?"),
+                        message: Text("Are you sure you want to delete this timer?"),
+                        buttons: [
+                            .cancel(),
+                            //.default(Text("Action")),
+                            .destructive(Text("Delete"),
+                                         action: deleteTimer)
+                        ]
+                    )
+                })
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    BackButton
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    ///EditButton()  /// EditButton() by default cancels reorder of list when done.
-                    EditButton
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    AddButton
-                }
-            }
-            .navigationBarTitle(viewRouter.newTimer ? "New Timer" : "Edit Timer",
-                                displayMode: .inline)
-            .onDisappear(perform: {
-                /// Reset the isNew flag in viewRouter. This works but maybe there is a better way?
-                viewRouter.newTimer = false
-            })
-            .sheet(item: $showItemView) { item in
-                switch item {
-                case .editItem:
-                    EditItemView()
-                case .addItem:
-                    AddItemView()
-                }
-                    //.onDisappear(perform: updateItemsList)
-            }
-            /// Action sheet: DELETE ALERT
-            .actionSheet(isPresented: $showDeleteAlert, content: {
-                ActionSheet(
-                    title: Text("Delete Timer?"),
-                    message: Text("Are you sure you want to delete this timer?"),
-                    buttons: [
-                        .cancel(),
-                        //.default(Text("Action")),
-                        .destructive(Text("Delete"),
-                                     action: deleteTimer)
-                    ]
-                )
-            })
+            .padding(0)
             
-            
-            /// BUTTONS
+            // BUTTONS
+            /// Change this to a TabBar
             Section {
                 HStack {
                     /// Delete timer
@@ -141,13 +155,14 @@ struct TimerEditView: View {
         
     }
     
+
     
     private var EditButton: some View {
         return AnyView(
             Button(action: {
-                self.editMode?.wrappedValue.toggle()
+                toggleEditMode()
             }) {
-                Text(self.editMode?.wrappedValue == .active ? "Done" : "Edit")
+                Text("\(getEditModeLabel())")
             }
         )
     }
@@ -177,13 +192,6 @@ struct TimerEditView: View {
     }
     
     
-//    private func onAdd() {
-//        let test = SprintTimerItem()
-//        test.type = .fastPace
-//        test.duration = 180
-//        sprintTimer.items.append(test)
-//    }
-    
     private func onDelete(offsets: IndexSet) {
         sprintTimer.items.remove(atOffsets: offsets)
     }
@@ -201,28 +209,8 @@ struct TimerEditView: View {
     private func saveTimerData() {
         /// Need to validate data before save.
         if valid() {
-            
-//            /// Adding fake data for testing.
-//            sprintTimer.name = "Blarg Timer Test"
-//
-//            let item1 = SprintTimerItem()
-//            item1.type = .warmup
-//            item1.duration = 600
-//            sprintTimer.items.append(item1)
-//
-//            let item2 = SprintTimerItem()
-//            item2.type = .mediumPace
-//            item2.duration = 900
-//            sprintTimer.items.append(item2)
-//
-//            let item3 = SprintTimerItem()
-//            item3.type = .cooldown
-//            item3.duration = 300
-//            sprintTimer.items.append(item3)
-//            /// END
-            
             timerDataController.replace(timer: sprintTimer)
-            viewRouter.currentPage = .timerSelectView // .timerDetailView
+            viewRouter.currentPage = .timerSelectView
         }
         else {
             /// Display error message.
@@ -235,14 +223,51 @@ struct TimerEditView: View {
         return true
     }
     
+    
+    // MARK: - EditMode functions
+    /// Made these to simplify the calls.
+    private func toggleEditMode() {
+        self.editMode?.wrappedValue.toggle()
+    }
+    
+    private func getEditModeLabel() -> String {
+        return self.editMode?.wrappedValue.editLabel() ?? "Edit"
+    }
 }
 
+
+// MARK: - Edit Mode extension
 
 extension EditMode {
     mutating func toggle() {
         self = self == .active ? .inactive : .active
     }
+    
+    func editLabel() -> String {
+        return self == .active ? "Done" : "Edit"
+    }
+    /// This handy extension can be used like this.
+    /// Add this to your view
+    ///     @Environment(\.editMode) private var editMode: Binding<EditMode>?
+    ///
+    /// Then create a button in the toolbar to toggle between the 2 modes.
+    ///    Button(action: {
+    ///        self.editMode?.wrappedValue.toggle()
+    ///    }) {
+    ///        Text("\(self.editMode?.wrappedValue.editLabel() ?? "Edit")")
+    ///    }
+    
+    /// Or you could add these funcs to your View to simplify the calls.
+    
+    ///    private func toggleEditMode() {
+    ///        self.editMode?.wrappedValue.toggle()
+    ///    }
+    ///
+    ///    private func getEditModeLabel() -> String {
+    ///        return self.editMode?.wrappedValue.editLabel() ?? "Edit"
+    ///    }
 }
+
 
 
 struct TimerEditView_Previews: PreviewProvider {

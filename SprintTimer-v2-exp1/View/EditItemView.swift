@@ -8,13 +8,100 @@
 import SwiftUI
 
 struct EditItemView: View {
-    var body: some View {
-        Text("Edit Item View")
+    
+    @Environment(\.presentationMode) var presentationMode
+    var item: SprintTimerItem
+    
+    @State private var timePicked: [Int] = []
+    
+    init(_ item: SprintTimerItem) {
+        self.item = item
+        self._timePicked = State(
+            initialValue: convertTimerPickerArray(item.duration))
     }
+
+
+    var body: some View {
+        VStack {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "xmark.circle")
+                            .font(.largeTitle)
+                            .foregroundColor(.gray)
+                            .padding(5)
+                    })
+                }
+                HStack {
+                    Text("Edit Interval Duration")
+                        .font(.largeTitle)
+                        .foregroundColor(.orange)
+                }
+            }
+            
+            List {
+                Text("\(TimerType.displayName(item.type))")
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                Section {
+                    HStack {
+                        Spacer()
+                        MainPicker(pickerSelections: self.$timePicked)
+                            .frame(width: 225, height: 100)
+                        Spacer()
+                    }
+                }
+                
+                Section {
+                    HStack {
+                        Spacer()
+                        TimerButton(
+                            label: "Save",
+                            buttonColor: .green,
+                            buttonWidth: 150)
+                            .onTapGesture {
+                                item.duration = convertTimerPickerArray(timePicked)
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        Spacer()
+                    }
+                }
+                .padding(20)
+                
+            }
+            //.listStyle(InsetGroupedListStyle())
+            
+        }
+        
+    }
+    
+    
+    func convertTimerPickerArray(_ array: [Int]) -> Int {
+        /// This will convert the hours, minutes, seconds array to total seconds.
+        var output: Int = 0
+        /// Hours
+        output += array[0]*3600
+        /// Minutes
+        output += array[1]*60
+        /// Seconds
+        output += array[2]
+        return output
+    }
+    
+    func convertTimerPickerArray(_ seconds: Int) -> [Int] {
+        /// This will convert total seconds to an hours, minutes, seconds aray.
+        let array: [Int] = [seconds/3600, seconds/60%60, seconds%60]
+        return array
+    }
+    
 }
 
 struct EditItemView_Previews: PreviewProvider {
     static var previews: some View {
-        EditItemView()
+        EditItemView(SprintTimerItem())
     }
 }

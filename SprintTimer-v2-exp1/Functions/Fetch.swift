@@ -8,20 +8,6 @@
 import SwiftUI
 
 func getTimerItemLabel(timer: SprintTimerItem) -> SprintTimerLabel {
-    var name: String
-
-    switch timer.type {
-    case .warmup:
-        name = "Warmup"
-    case .mediumPace:
-        name = "Medium Pace"
-    case .cooldown:
-        name = "Cooldown"
-
-    default:
-        name = "Blarg"
-    }
-    
-    return SprintTimerLabel(name: name,
+    return SprintTimerLabel(name: TimerType.displayName(timer.type),
                             value: formatSecondsToTimeString(timer.duration))
 }

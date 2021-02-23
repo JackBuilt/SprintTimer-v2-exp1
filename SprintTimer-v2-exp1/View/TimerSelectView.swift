@@ -31,6 +31,7 @@ struct TimerSelectView: View {
             .onDelete(perform: timerDataController.remove)
 
         }
+        .listStyle(InsetGroupedListStyle())
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 // New timer.
@@ -58,7 +59,7 @@ struct TimerSelectView: View {
 //                }
             }
         }
-        .navigationBarTitle("Timer Select", displayMode: .inline)
+        .navigationBarTitle("Select a Program", displayMode: .inline)
         //.environment(\.editMode, $editMode)
     }
     

@@ -24,6 +24,9 @@
 		04B0D71725E2DCD200A7C462 /* Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D71625E2DCD200A7C462 /* Fetch.swift */; };
 		04B0D71A25E2F33700A7C462 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D71925E2F33700A7C462 /* EditItemView.swift */; };
 		04B0D71D25E32A5F00A7C462 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D71C25E32A5F00A7C462 /* AddItemView.swift */; };
+		04B0D72025E332F200A7C462 /* ReadMe.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 04B0D71F25E332F200A7C462 /* ReadMe.rtf */; };
+		04B0D72525E4BA9200A7C462 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72325E4BA9200A7C462 /* PickerView.swift */; };
+		04B0D72625E4BA9200A7C462 /* MainPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72425E4BA9200A7C462 /* MainPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		04B0D71625E2DCD200A7C462 /* Fetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetch.swift; sourceTree = "<group>"; };
 		04B0D71925E2F33700A7C462 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
 		04B0D71C25E32A5F00A7C462 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
+		04B0D71F25E332F200A7C462 /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
+		04B0D72325E4BA9200A7C462 /* PickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		04B0D72425E4BA9200A7C462 /* MainPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +84,7 @@
 		04B0D6D725E2036B00A7C462 /* SprintTimer-v2-exp1 */ = {
 			isa = PBXGroup;
 			children = (
+				04B0D72225E4BA3D00A7C462 /* Picker */,
 				04B0D70025E213EE00A7C462 /* Functions */,
 				04B0D6F925E210AB00A7C462 /* View */,
 				04B0D6ED25E206B800A7C462 /* Data */,
@@ -88,6 +95,7 @@
 				04B0D6E125E2036C00A7C462 /* Info.plist */,
 				04B0D6DE25E2036C00A7C462 /* Preview Content */,
 				04B0D6F625E20F0B00A7C462 /* ViewRouter.swift */,
+				04B0D71F25E332F200A7C462 /* ReadMe.rtf */,
 			);
 			path = "SprintTimer-v2-exp1";
 			sourceTree = "<group>";
@@ -138,6 +146,15 @@
 				04B0D71625E2DCD200A7C462 /* Fetch.swift */,
 			);
 			path = Functions;
+			sourceTree = "<group>";
+		};
+		04B0D72225E4BA3D00A7C462 /* Picker */ = {
+			isa = PBXGroup;
+			children = (
+				04B0D72425E4BA9200A7C462 /* MainPicker.swift */,
+				04B0D72325E4BA9200A7C462 /* PickerView.swift */,
+			);
+			path = Picker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B0D6E025E2036C00A7C462 /* Preview Assets.xcassets in Resources */,
+				04B0D72025E332F200A7C462 /* ReadMe.rtf in Resources */,
 				04B0D6DD25E2036C00A7C462 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,7 +230,9 @@
 				04B0D71125E2BD6400A7C462 /* TimerButton.swift in Sources */,
 				04B0D6EA25E203DB00A7C462 /* SprintTimer.swift in Sources */,
 				04B0D70525E2B05D00A7C462 /* TimerEditView.swift in Sources */,
+				04B0D72625E4BA9200A7C462 /* MainPicker.swift in Sources */,
 				04B0D6FE25E2119F00A7C462 /* SprintTimerLabel.swift in Sources */,
+				04B0D72525E4BA9200A7C462 /* PickerView.swift in Sources */,
 				04B0D71D25E32A5F00A7C462 /* AddItemView.swift in Sources */,
 				04B0D6DB25E2036B00A7C462 /* ContentView.swift in Sources */,
 				04B0D71425E2BD9600A7C462 /* Color.swift in Sources */,

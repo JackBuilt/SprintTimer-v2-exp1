@@ -21,13 +21,14 @@ struct SprintTimerLabel: View {
         HStack(alignment: .center) {
             Text("\(name)")
                 .font(.title2)
+                .foregroundColor(Color("SprintTimerLabelColor"))
             
             Spacer()
             
             Text("\(value)")
                 .font(.custom("Avenir", size: 20))
                 .fontWeight(.bold)
-                //.foregroundColor(valueColor)
+                .foregroundColor(Color("SprintTimerLabelColor"))
         }
         .multilineTextAlignment(.center)
     }
