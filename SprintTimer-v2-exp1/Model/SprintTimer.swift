@@ -39,7 +39,7 @@ class SprintTimerItem: Identifiable, Decodable, Encodable {
     init() {
         self.id = UUID()
         self.type = .none
-        self.duration = -1
+        self.duration = 0
     }
     
     init(_ type: TimerType, _ seconds: Int) {

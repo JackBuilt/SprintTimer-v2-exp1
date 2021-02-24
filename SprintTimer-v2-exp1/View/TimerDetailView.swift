@@ -12,70 +12,108 @@ struct TimerDetailView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     private var sprintTimer: SprintTimer
     
+    @ObservedObject var timerController: SprintTimerController
+    @State private var timerIsActive: Bool = false
+    @State private var showActiveAlert: Bool = false
+    
     
     init(_ sprintTimer: SprintTimer)
     {
         self.sprintTimer = sprintTimer
+        self.timerController = SprintTimerController(sprintTimer)
     }
     
     
     var body: some View {
-        List {
+        VStack {
+            Section {
+                List {
+                    if self.timerIsActive {
+                        TimerDetailRunningView(sprintTimer: self.sprintTimer)
+                    }
+                    else {
+                        TimerDetailSummaryView(sprintTimer: self.sprintTimer)
+                    }   
+                }
+                .listStyle(InsetGroupedListStyle())
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        /// Back button
+                        Button(action: {
+                            closeTimer()
+                        }) {
+                            Image(systemName: "arrow.backward.square.fill")
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        /// Edit timer
+                        Button(action: {
+                            editTimer()
+                        }) {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 26))
+                        }
+                    }
+                }
+                .navigationBarTitle("\(sprintTimer.name)", displayMode: .inline)
+            }
             
             Section {
-                ForEach(sprintTimer.items) { item in
-                    getTimerItemLabel(timer: item)
+                HStack {
+                    Spacer()
+                    VStack(spacing: 20) {
+                        // Buttons
+                        if timerController.mode == AppTimer.timerMode.stopped {
+                            TimerButton(label: "Start", buttonColor: .green)
+                                .onTapGesture {
+                                    self.timerController.start(true)
+                                    self.timerIsActive = true
+                                    //self.sounds.playSound(.buttonClick)
+                                }
+                        }
+                        else if timerController.mode == AppTimer.timerMode.running {
+                            TimerButton(label: "Pause", buttonColor: .blue)
+                                .onTapGesture {
+                                    self.timerController.pause()
+                                    //self.sounds.playSound(.buttonClick)
+                                }
+                        }
+                        else if timerController.mode == AppTimer.timerMode.paused {
+                            TimerButton(label: "Continue", buttonColor: .purple)
+                                .onTapGesture {
+                                    self.timerController.start(false)
+                                    //self.sounds.playSound(.buttonClick)
+                                }
+
+                            TimerButton(label: "Stop", buttonColor: .red)
+                                .onTapGesture {
+                                    self.timerController.stop()
+                                    self.timerIsActive = false
+                                    //self.sounds.playSound(.buttonClick)
+                                }
+                        }
+                    }
+                    Spacer()
                 }
-            }
-            
+            }   // END Section
+            .padding(10)
         }
-        .listStyle(InsetGroupedListStyle())
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                /// Back button
-                Button(action: {
-                    closeTimer()
-                }) {
-                    Image(systemName: "arrow.backward.square.fill")
-                }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                /// Edit timer
-                Button(action: {
-                    editTimer()
-                }) {
-                    Image(systemName: "gearshape.fill")
-                        .font(.system(size: 26))
-                }
-            }
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                /// Mute sound
-//                Button(action: {
-//                    //self.timerController.isMuted.toggle()
-//                }) {
-//                    HStack {
-//                        Text("") /// Unfuckingbelievable... Only by adding this empty text can you change the color.
-//                        Image(systemName: timerController.isMuted ? "speaker.slash.fill" : "speaker.1.fill")
-//                            .font(.system(size: 26))
-//                            .foregroundColor(timerController.isMuted ? .red : .green)
-//                    }
-//                }
-//                .frame(width: 25)
-//            }
-        }
-        .navigationBarTitle("\(sprintTimer.name)", displayMode: .inline)
     }
     
     
     func editTimer() {
         //self.timerController.stop()
         viewRouter.selectedTimer = sprintTimer
-        viewRouter.currentPage = .timerEditView
+        withAnimation {
+            viewRouter.currentPage = .timerEditView
+        }
     }
     
     func closeTimer() {
         //self.timerController.stop()
-        viewRouter.currentPage = .timerSelectView
+        withAnimation {
+            viewRouter.currentPage = .timerSelectView
+        }
     }
     
 }

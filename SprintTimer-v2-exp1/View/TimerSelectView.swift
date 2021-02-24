@@ -22,7 +22,9 @@ struct TimerSelectView: View {
                 Button(action: {
                     /// Pass the selected timer to the ViewRouter()
                     viewRouter.selectedTimer = timer
-                    viewRouter.currentPage = .timerDetailView
+                    withAnimation {
+                        viewRouter.currentPage = .timerDetailView
+                    }
                 }) {
                     SprintTimerLabel(name: "\(timer.name)",
                                      value: "\(formatSecondsToTimeString(timer.totalTime()))")

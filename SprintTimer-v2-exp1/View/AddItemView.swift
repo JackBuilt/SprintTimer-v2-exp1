@@ -42,7 +42,7 @@ struct AddItemView: View {
                     })
                 }
                 HStack {
-                    Text("Interval Selection")
+                    Text("Add Interval Type")
                         .font(.largeTitle)
                         .foregroundColor(.orange)
                 }

@@ -43,37 +43,56 @@ struct TimerEditView: View {
         VStack {
             
             Section {
-                HStack {
-                    Text("Timer Name")
-                        .font(.title2)
-                        .padding(.trailing, 20)
-                    Spacer()
-                    TextField("Name", text: $sprintTimer.name)
-                        .padding(.leading, 10)
-                        .padding(3)
-                        .background(Color("TextFieldBG"))
-                        .cornerRadius(5.0)
-                        .padding(3)
-                        .font(.title2)
+                VStack {
+                    HStack {
+                        Text("Timer Name")
+                            .font(.title2)
+                            .foregroundColor(Color("AccentColor"))
+                            .padding(.trailing, 20)
+                        Spacer()
+                        TextField("Name", text: $sprintTimer.name)
+                            .padding(.leading, 10)
+                            .padding(3)
+                            .background(Color("TextFieldBG"))
+                            .cornerRadius(5.0)
+                            .padding(3)
+                            .font(.title2)
+                    }
+                    .padding(.top, 20)
+                    .padding(.leading, 20)
+                    .padding(.trailing, 20)
+                    
+                    HStack {
+                        Text("Total Time")
+                            .font(.title2)
+                            .foregroundColor(Color("AccentColor"))
+                            .padding(.trailing, 50)
+                        
+                        Text("\(formatSecondsToTimeString(self.sprintTimer.totalTime()))")
+                            .font(.title2)
+                        Spacer()
+                    }
+                    .padding(.top, 20)
+                    .padding(.leading, 20)
+                    .padding(.trailing, 30)
                 }
-                .padding(.top, 20)
             }
-            .padding(.leading, 20)
-            .padding(.trailing, 20)
             
             Section {
                 List {
-                    ForEach(sprintTimer.items) { item in
-                        Button(action: {
-                            /// go to edit item view.
-                            selectedItem = item
-                            showItemView = .editItem
-                        }, label: {
-                            getTimerItemLabel(timer: item)
-                        })
+                    Section(header: Text("Edit to change order or delete").padding(.leading, 20)) {
+                        ForEach(sprintTimer.items) { item in
+                            Button(action: {
+                                /// go to edit item view.
+                                self.selectedItem = item
+                                self.showItemView = .editItem
+                            }, label: {
+                                getTimerItemLabel(timer: item)
+                            })
+                        }
+                        .onDelete(perform: onDelete)
+                        .onMove(perform: onMove)
                     }
-                    .onDelete(perform: onDelete)
-                    .onMove(perform: onMove)
                 }
                 .listStyle(InsetGroupedListStyle())
                 .toolbar {
@@ -97,10 +116,15 @@ struct TimerEditView: View {
                 .sheet(item: $showItemView) { item in
                     switch item {
                     case .editItem:
-                        EditItemView(self.selectedItem)
+                        if self.selectedItem.type != .none {
+                            /// Cheese. For some reason the 1st call is always an empty object.
+                            /// This causes EditItemView to lock onto the zero duration.
+                            /// Everything is fine after the fist call...
+                            /// Also this gets called 3 times. Maybe due to the array somehow?
+                            EditItemView(self.selectedItem)
+                        }
                     case .addItem:
                         AddItemView(self.sprintTimer)
-                            //.onDisappear(perform: updateItemsList)
                     }
                     /// To hide the sheet just set activeSheet = nil        (showItemView = nil)
                     /// Bonus: If you want your sheet to be fullscreen, then use the very same code,
@@ -170,7 +194,9 @@ struct TimerEditView: View {
     private var BackButton: some View {
         return AnyView(
             Button(action: {
-                viewRouter.currentPage = isNew ? .timerSelectView : .timerDetailView
+                withAnimation {
+                    viewRouter.currentPage = isNew ? .timerSelectView : .timerDetailView
+                }
             }) {
                 HStack(spacing: 10) {
                     Image(systemName: "arrow.backward.square.fill")
@@ -203,14 +229,18 @@ struct TimerEditView: View {
     
     private func deleteTimer() {
         timerDataController.remove(timer: self.sprintTimer, true)
-        viewRouter.currentPage = .timerSelectView
+        withAnimation {
+            viewRouter.currentPage = .timerSelectView
+        }
     }
     
     private func saveTimerData() {
         /// Need to validate data before save.
         if valid() {
             timerDataController.replace(timer: sprintTimer)
-            viewRouter.currentPage = .timerSelectView
+            withAnimation {
+                viewRouter.currentPage = .timerSelectView
+            }
         }
         else {
             /// Display error message.

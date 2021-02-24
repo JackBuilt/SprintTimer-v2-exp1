@@ -27,6 +27,10 @@
 		04B0D72025E332F200A7C462 /* ReadMe.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 04B0D71F25E332F200A7C462 /* ReadMe.rtf */; };
 		04B0D72525E4BA9200A7C462 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72325E4BA9200A7C462 /* PickerView.swift */; };
 		04B0D72625E4BA9200A7C462 /* MainPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72425E4BA9200A7C462 /* MainPicker.swift */; };
+		04B0D72925E6249B00A7C462 /* TimerDetailSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72825E6249B00A7C462 /* TimerDetailSummaryView.swift */; };
+		04B0D72C25E6260400A7C462 /* TimerDetailRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72B25E6260400A7C462 /* TimerDetailRunningView.swift */; };
+		04B0D73025E6276200A7C462 /* SprintTimerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72F25E6276200A7C462 /* SprintTimerController.swift */; };
+		04B0D73425E627EF00A7C462 /* AppTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D73325E627EF00A7C462 /* AppTimer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +56,10 @@
 		04B0D71F25E332F200A7C462 /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
 		04B0D72325E4BA9200A7C462 /* PickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		04B0D72425E4BA9200A7C462 /* MainPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPicker.swift; sourceTree = "<group>"; };
+		04B0D72825E6249B00A7C462 /* TimerDetailSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDetailSummaryView.swift; sourceTree = "<group>"; };
+		04B0D72B25E6260400A7C462 /* TimerDetailRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDetailRunningView.swift; sourceTree = "<group>"; };
+		04B0D72F25E6276200A7C462 /* SprintTimerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintTimerController.swift; sourceTree = "<group>"; };
+		04B0D73325E627EF00A7C462 /* AppTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTimer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +92,7 @@
 		04B0D6D725E2036B00A7C462 /* SprintTimer-v2-exp1 */ = {
 			isa = PBXGroup;
 			children = (
+				04B0D72E25E6275800A7C462 /* Controller */,
 				04B0D72225E4BA3D00A7C462 /* Picker */,
 				04B0D70025E213EE00A7C462 /* Functions */,
 				04B0D6F925E210AB00A7C462 /* View */,
@@ -112,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				04B0D6E925E203DB00A7C462 /* SprintTimer.swift */,
+				04B0D73325E627EF00A7C462 /* AppTimer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -131,9 +141,11 @@
 				04B0D6FD25E2119F00A7C462 /* SprintTimerLabel.swift */,
 				04B0D70425E2B05D00A7C462 /* TimerEditView.swift */,
 				04B0D70C25E2B20900A7C462 /* TimerDetailView.swift */,
+				04B0D72825E6249B00A7C462 /* TimerDetailSummaryView.swift */,
 				04B0D71025E2BD6400A7C462 /* TimerButton.swift */,
 				04B0D71925E2F33700A7C462 /* EditItemView.swift */,
 				04B0D71C25E32A5F00A7C462 /* AddItemView.swift */,
+				04B0D72B25E6260400A7C462 /* TimerDetailRunningView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -155,6 +167,14 @@
 				04B0D72325E4BA9200A7C462 /* PickerView.swift */,
 			);
 			path = Picker;
+			sourceTree = "<group>";
+		};
+		04B0D72E25E6275800A7C462 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				04B0D72F25E6276200A7C462 /* SprintTimerController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,17 +253,21 @@
 				04B0D72625E4BA9200A7C462 /* MainPicker.swift in Sources */,
 				04B0D6FE25E2119F00A7C462 /* SprintTimerLabel.swift in Sources */,
 				04B0D72525E4BA9200A7C462 /* PickerView.swift in Sources */,
+				04B0D72C25E6260400A7C462 /* TimerDetailRunningView.swift in Sources */,
 				04B0D71D25E32A5F00A7C462 /* AddItemView.swift in Sources */,
+				04B0D73425E627EF00A7C462 /* AppTimer.swift in Sources */,
 				04B0D6DB25E2036B00A7C462 /* ContentView.swift in Sources */,
 				04B0D71425E2BD9600A7C462 /* Color.swift in Sources */,
 				04B0D71725E2DCD200A7C462 /* Fetch.swift in Sources */,
 				04B0D6F725E20F0B00A7C462 /* ViewRouter.swift in Sources */,
 				04B0D70225E213FC00A7C462 /* Format.swift in Sources */,
+				04B0D72925E6249B00A7C462 /* TimerDetailSummaryView.swift in Sources */,
 				04B0D6FB25E210B900A7C462 /* TimerSelectView.swift in Sources */,
 				04B0D6D925E2036B00A7C462 /* SprintTimer_v2_exp1App.swift in Sources */,
 				04B0D6F425E20B8F00A7C462 /* SprintTimerDataController.swift in Sources */,
 				04B0D70D25E2B20900A7C462 /* TimerDetailView.swift in Sources */,
 				04B0D71A25E2F33700A7C462 /* EditItemView.swift in Sources */,
+				04B0D73025E6276200A7C462 /* SprintTimerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

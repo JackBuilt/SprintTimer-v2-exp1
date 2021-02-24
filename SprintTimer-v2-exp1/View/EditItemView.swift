@@ -16,8 +16,10 @@ struct EditItemView: View {
     
     init(_ item: SprintTimerItem) {
         self.item = item
+        print(item.duration)
         self._timePicked = State(
             initialValue: convertTimerPickerArray(item.duration))
+        //print(timePicked)
     }
 
 
@@ -43,9 +45,13 @@ struct EditItemView: View {
             }
             
             List {
-                Text("\(TimerType.displayName(item.type))")
-                    .font(.title)
-                    .fontWeight(.bold)
+                HStack {
+                    Spacer()
+                    Text("\(TimerType.displayName(item.type))")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                }
                 
                 Section {
                     HStack {
