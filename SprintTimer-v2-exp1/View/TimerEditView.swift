@@ -28,8 +28,9 @@ struct TimerEditView: View {
     @State private var showItemView: ActiveSheet?
     @State private var showDeleteAlert: Bool = false
     @State private var selectedItem: SprintTimerItem = SprintTimerItem()
+    
     private var isNew: Bool
-
+    @State var isChanged: Bool = false
 
     init(_ sprintTimer: SprintTimer, newTimer: Bool = false)
     {
@@ -51,6 +52,10 @@ struct TimerEditView: View {
                             .padding(.trailing, 20)
                         Spacer()
                         TextField("Name", text: $sprintTimer.name)
+                            .onChange(of: sprintTimer.name) { newValue in
+                                self.isChanged = true
+                                print("Name changed!")
+                            }
                             .padding(.leading, 10)
                             .padding(3)
                             .background(Color("TextFieldBG"))
@@ -101,7 +106,7 @@ struct TimerEditView: View {
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         ///EditButton()  /// EditButton() by default cancels reorder of list when done.
-                        EditButton
+                        EditButton 
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         AddButton
@@ -121,10 +126,10 @@ struct TimerEditView: View {
                             /// This causes EditItemView to lock onto the zero duration.
                             /// Everything is fine after the fist call...
                             /// Also this gets called 3 times. Maybe due to the array somehow?
-                            EditItemView(self.selectedItem)
+                            EditItemView(self.selectedItem, self.$isChanged)
                         }
                     case .addItem:
-                        AddItemView(self.sprintTimer)
+                        AddItemView(self.sprintTimer, self.$isChanged)
                     }
                     /// To hide the sheet just set activeSheet = nil        (showItemView = nil)
                     /// Bonus: If you want your sheet to be fullscreen, then use the very same code,
@@ -194,8 +199,14 @@ struct TimerEditView: View {
     private var BackButton: some View {
         return AnyView(
             Button(action: {
-                withAnimation {
-                    viewRouter.currentPage = isNew ? .timerSelectView : .timerDetailView
+                if self.isChanged {
+                    /// Show prompt to save.
+                    print("You should save before you leave...")
+                }
+                else {
+                    withAnimation {
+                        viewRouter.currentPage = isNew ? .timerSelectView : .timerDetailView
+                    }
                 }
             }) {
                 HStack(spacing: 10) {
@@ -220,15 +231,18 @@ struct TimerEditView: View {
     
     private func onDelete(offsets: IndexSet) {
         sprintTimer.items.remove(atOffsets: offsets)
+        isChanged = true
     }
 
     private func onMove(source: IndexSet, destination: Int) {
         sprintTimer.items.move(fromOffsets: source, toOffset: destination)
+        isChanged = true
     }
     
     
     private func deleteTimer() {
         timerDataController.remove(timer: self.sprintTimer, true)
+        isChanged = true
         withAnimation {
             viewRouter.currentPage = .timerSelectView
         }
@@ -238,6 +252,7 @@ struct TimerEditView: View {
         /// Need to validate data before save.
         if valid() {
             timerDataController.replace(timer: sprintTimer)
+            isChanged = false
             withAnimation {
                 viewRouter.currentPage = .timerSelectView
             }

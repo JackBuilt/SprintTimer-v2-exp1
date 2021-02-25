@@ -13,9 +13,11 @@ struct AddItemView: View {
     var sprintTimer: SprintTimer
     
     private var items = [SprintTimerItem]()
+    @Binding var isChanged: Bool
     
-    init(_ timer: SprintTimer) {
+    init(_ timer: SprintTimer, _ isChanged: Binding<Bool>) {
         self.sprintTimer = timer
+        self._isChanged = isChanged
 
         /// Loading static data from here for now.
         items.append(SprintTimerItem(.warmup, 0))
@@ -50,8 +52,10 @@ struct AddItemView: View {
             
             List {
                 ForEach(items) { item in
+                    /// Save
                     Button(action: {
                         sprintTimer.items.append(item)
+                        self.isChanged = true
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Text("\(TimerType.displayName(item.type))")
@@ -63,10 +67,7 @@ struct AddItemView: View {
                 }
             }
             .listStyle(InsetGroupedListStyle())
-            
-            Section {
-                
-            }
+
         }
 
     }
@@ -87,8 +88,8 @@ struct AddItemView: View {
     
 }
 
-struct AddItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddItemView(SprintTimer())
-    }
-}
+//struct AddItemView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddItemView(SprintTimer())
+//    }
+//}

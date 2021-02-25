@@ -33,7 +33,6 @@ class AppTimer {
     @objc func updateTimer() {
         date = Date()
         secondsElapsed = calculateSecondsElapsed()
-        //print("AppTimer.updateTimer()")
     }
     
     func start(_ reset: Bool = true) {
@@ -41,7 +40,7 @@ class AppTimer {
         if reset {
             startTime = Date()
             secondsElapsed = 0
-            date = Date()
+            date = startTime
         }
         else {
             // Update startTime by subtracting secondsElapsed when paused from current date.
@@ -65,8 +64,8 @@ class AppTimer {
     
     private func calculateSecondsElapsed() -> Int {
         let diffComp = Calendar.current.dateComponents([.second], from: startTime!, to: date!)
-        let seconds = diffComp.second
-        return seconds ?? 0
+        let seconds = diffComp.second ?? 0
+        return seconds
     }
     
     

@@ -30,7 +30,8 @@ struct TimerSelectView: View {
                                      value: "\(formatSecondsToTimeString(timer.totalTime()))")
                 }
             }
-            .onDelete(perform: timerDataController.remove)
+            .onDelete(perform: onDelete)    //timerDataController.remove)
+            .onMove(perform: onMove)
 
         }
         .listStyle(InsetGroupedListStyle())
@@ -38,9 +39,9 @@ struct TimerSelectView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 // New timer.
                 Button(action: {
+                    viewRouter.selectedTimer = SprintTimer()
+                    viewRouter.newTimer = true
                     withAnimation {
-                        viewRouter.selectedTimer = SprintTimer()
-                        viewRouter.newTimer = true
                         viewRouter.currentPage = .timerEditView
                     }
                 }) {
@@ -63,6 +64,15 @@ struct TimerSelectView: View {
         }
         .navigationBarTitle("Select a Program", displayMode: .inline)
         //.environment(\.editMode, $editMode)
+    }
+    
+    
+    private func onDelete(offsets: IndexSet) {
+        timerDataController.remove(at: offsets)
+    }
+    
+    private func onMove(source: IndexSet, destination: Int) {
+        timerDataController.move(from: source, to: destination)
     }
     
 }

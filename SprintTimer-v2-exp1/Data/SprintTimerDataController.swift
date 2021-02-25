@@ -38,6 +38,10 @@ class SprintTimerDataController: ObservableObject {
         }
     }
     
+    func save() {
+        saveData()
+    }
+    
     func add(timer: SprintTimer) {
         sprintTimerArray.append(timer)
         saveData()
@@ -61,5 +65,10 @@ class SprintTimerDataController: ObservableObject {
         if save {
             saveData()
         }
+    }
+    
+    func move(from source: IndexSet, to destination: Int) {
+        self.sprintTimerArray.move(fromOffsets: source, toOffset: destination)
+        saveData()
     }
 }

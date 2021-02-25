@@ -13,13 +13,13 @@ struct EditItemView: View {
     var item: SprintTimerItem
     
     @State private var timePicked: [Int] = []
+    @Binding var isChanged: Bool
     
-    init(_ item: SprintTimerItem) {
+    init(_ item: SprintTimerItem, _ isChanged: Binding<Bool>) {
         self.item = item
-        print(item.duration)
+        self._isChanged = isChanged
         self._timePicked = State(
             initialValue: convertTimerPickerArray(item.duration))
-        //print(timePicked)
     }
 
 
@@ -71,6 +71,7 @@ struct EditItemView: View {
                             buttonWidth: 150)
                             .onTapGesture {
                                 item.duration = convertTimerPickerArray(timePicked)
+                                self.isChanged = true
                                 presentationMode.wrappedValue.dismiss()
                             }
                         Spacer()
@@ -106,8 +107,8 @@ struct EditItemView: View {
     
 }
 
-struct EditItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditItemView(SprintTimerItem())
-    }
-}
+//struct EditItemView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EditItemView(SprintTimerItem(), <#Binding<Bool>#>)
+//    }
+//}
