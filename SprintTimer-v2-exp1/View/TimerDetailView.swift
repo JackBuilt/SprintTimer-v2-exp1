@@ -10,11 +10,10 @@ import SwiftUI
 struct TimerDetailView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
-    private var sprintTimer: SprintTimer
-    
     @ObservedObject var timerController: SprintTimerController
     @State private var timerIsActive: Bool = false
     @State private var showActiveAlert: Bool = false
+    private var sprintTimer: SprintTimer
     
     
     init(_ sprintTimer: SprintTimer)
@@ -29,7 +28,7 @@ struct TimerDetailView: View {
             Section {
                 List {
                     if self.timerIsActive {
-                        TimerDetailRunningView(sprintTimer: self.sprintTimer)
+                        TimerDetailRunningView(sprintTimer: self.sprintTimer, timerController: self.timerController)
                     }
                     else {
                         TimerDetailSummaryView(sprintTimer: self.sprintTimer)

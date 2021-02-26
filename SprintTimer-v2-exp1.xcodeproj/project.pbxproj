@@ -31,6 +31,7 @@
 		04B0D72C25E6260400A7C462 /* TimerDetailRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72B25E6260400A7C462 /* TimerDetailRunningView.swift */; };
 		04B0D73025E6276200A7C462 /* SprintTimerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72F25E6276200A7C462 /* SprintTimerController.swift */; };
 		04B0D73425E627EF00A7C462 /* AppTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D73325E627EF00A7C462 /* AppTimer.swift */; };
+		04B0D73725E8B33500A7C462 /* EventDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D73625E8B33500A7C462 /* EventDate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		04B0D72B25E6260400A7C462 /* TimerDetailRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDetailRunningView.swift; sourceTree = "<group>"; };
 		04B0D72F25E6276200A7C462 /* SprintTimerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintTimerController.swift; sourceTree = "<group>"; };
 		04B0D73325E627EF00A7C462 /* AppTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTimer.swift; sourceTree = "<group>"; };
+		04B0D73625E8B33500A7C462 /* EventDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 			children = (
 				04B0D6E925E203DB00A7C462 /* SprintTimer.swift */,
 				04B0D73325E627EF00A7C462 /* AppTimer.swift */,
+				04B0D73625E8B33500A7C462 /* EventDate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				04B0D70225E213FC00A7C462 /* Format.swift in Sources */,
 				04B0D72925E6249B00A7C462 /* TimerDetailSummaryView.swift in Sources */,
 				04B0D6FB25E210B900A7C462 /* TimerSelectView.swift in Sources */,
+				04B0D73725E8B33500A7C462 /* EventDate.swift in Sources */,
 				04B0D6D925E2036B00A7C462 /* SprintTimer_v2_exp1App.swift in Sources */,
 				04B0D6F425E20B8F00A7C462 /* SprintTimerDataController.swift in Sources */,
 				04B0D70D25E2B20900A7C462 /* TimerDetailView.swift in Sources */,

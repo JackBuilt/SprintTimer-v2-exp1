@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-class AppTimer {
+class AppTimer: ObservableObject {
     
     @Published var mode: timerMode = .stopped
     @Published var secondsElapsed = 0
     @Published var date: Date?
     
     private var timer: Timer?
-    private var startTime: Date?
+    var startTime: Date?
     
     private func createTimer() {
       //if timer == nil {
@@ -35,6 +35,7 @@ class AppTimer {
         secondsElapsed = calculateSecondsElapsed()
     }
     
+
     func start(_ reset: Bool = true) {
         mode = .running
         if reset {

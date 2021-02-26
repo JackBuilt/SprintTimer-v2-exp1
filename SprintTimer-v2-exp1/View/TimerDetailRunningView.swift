@@ -10,6 +10,7 @@ import SwiftUI
 struct TimerDetailRunningView: View {
     
     var sprintTimer: SprintTimer
+    var timerController: SprintTimerController
     
     var body: some View {
         HStack {
@@ -29,6 +30,12 @@ struct TimerDetailRunningView: View {
             SprintTimerLabel(name: "Next Interval", value: "Fast Pace")
             SprintTimerLabel(name: "Current Interval", value: "Warmup 2:13")
             SprintTimerLabel(name: "Time Remaining", value: "23:42")
+        }
+        
+        Section {
+            ForEach(timerController.timerEvents) { event in
+                Text("\(event.date)")
+            }
         }
     }
 }

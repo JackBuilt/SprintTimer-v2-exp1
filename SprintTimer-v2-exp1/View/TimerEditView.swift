@@ -14,23 +14,29 @@ enum ActiveSheet: Identifiable {
         hashValue
     }
 }
+enum ActiveAlert: Identifiable {
+    case alertDelete, alertSave
+    
+    var id: Int {
+        hashValue
+    }
+}
 
 
 struct TimerEditView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
+    @Environment(\.editMode) private var editMode: Binding<EditMode>?
     
     @ObservedObject var timerDataController: SprintTimerDataController = SprintTimerDataController()
     @ObservedObject var sprintTimer: SprintTimer
     
-    @Environment(\.editMode) private var editMode: Binding<EditMode>?
-    
     @State private var showItemView: ActiveSheet?
-    @State private var showDeleteAlert: Bool = false
+    @State private var showAlert: ActiveAlert?
     @State private var selectedItem: SprintTimerItem = SprintTimerItem()
-    
+    @State private var isChanged: Bool = false
     private var isNew: Bool
-    @State var isChanged: Bool = false
+    
 
     init(_ sprintTimer: SprintTimer, newTimer: Bool = false)
     {
@@ -49,14 +55,14 @@ struct TimerEditView: View {
                         Text("Timer Name")
                             .font(.title2)
                             .foregroundColor(Color("AccentColor"))
-                            .padding(.trailing, 20)
+                            .padding(.trailing, 5)
                         Spacer()
                         TextField("Name", text: $sprintTimer.name)
                             .onChange(of: sprintTimer.name) { newValue in
                                 self.isChanged = true
                                 print("Name changed!")
                             }
-                            .padding(.leading, 10)
+                            .padding(.leading, 5)
                             .padding(3)
                             .background(Color("TextFieldBG"))
                             .cornerRadius(5.0)
@@ -71,7 +77,7 @@ struct TimerEditView: View {
                         Text("Total Time")
                             .font(.title2)
                             .foregroundColor(Color("AccentColor"))
-                            .padding(.trailing, 50)
+                            .padding(.trailing, 35)
                         
                         Text("\(formatSecondsToTimeString(self.sprintTimer.totalTime()))")
                             .font(.title2)
@@ -124,8 +130,8 @@ struct TimerEditView: View {
                         if self.selectedItem.type != .none {
                             /// Cheese. For some reason the 1st call is always an empty object.
                             /// This causes EditItemView to lock onto the zero duration.
-                            /// Everything is fine after the fist call...
-                            /// Also this gets called 3 times. Maybe due to the array somehow?
+                            /// Everything is fine after the first call...
+                            /// Also this gets called 3 times. Maybe due to the wheel array somehow?
                             EditItemView(self.selectedItem, self.$isChanged)
                         }
                     case .addItem:
@@ -135,19 +141,14 @@ struct TimerEditView: View {
                     /// Bonus: If you want your sheet to be fullscreen, then use the very same code,
                     /// but instead of .sheet write .fullScreenCover
                 }
-                /// Action sheet: DELETE ALERT
-                .actionSheet(isPresented: $showDeleteAlert, content: {
-                    ActionSheet(
-                        title: Text("Delete Timer?"),
-                        message: Text("Are you sure you want to delete this timer?"),
-                        buttons: [
-                            .cancel(),
-                            //.default(Text("Action")),
-                            .destructive(Text("Delete"),
-                                         action: deleteTimer)
-                        ]
-                    )
-                })
+                .actionSheet(item: $showAlert) { alert in
+                    switch alert {
+                    case .alertDelete:
+                        return alertDelete()
+                    case .alertSave:
+                        return alertSave()
+                    }
+                }
             }
             .padding(0)
             
@@ -164,7 +165,7 @@ struct TimerEditView: View {
                         disabled: isNew)
                         .onTapGesture {
                             if !isNew {
-                                self.showDeleteAlert = true
+                                self.showAlert = .alertDelete
                             }
                         }
                     Spacer()
@@ -201,12 +202,11 @@ struct TimerEditView: View {
             Button(action: {
                 if self.isChanged {
                     /// Show prompt to save.
-                    print("You should save before you leave...")
+                    //print("You should save before you leave...")
+                    self.showAlert = .alertSave
                 }
                 else {
-                    withAnimation {
-                        viewRouter.currentPage = isNew ? .timerSelectView : .timerDetailView
-                    }
+                    goBack()
                 }
             }) {
                 HStack(spacing: 10) {
@@ -228,6 +228,38 @@ struct TimerEditView: View {
         )
     }
     
+    
+    private func alertDelete() -> ActionSheet {
+        ActionSheet(
+            title: Text("Delete Timer?"),
+            message: Text("Are you sure you want to delete this timer?"),
+            buttons: [
+                .cancel(),
+                //.default(Text("Action")),
+                .destructive(Text("Delete"),
+                             action: deleteTimer)
+            ]
+        )
+    }
+    
+    private func alertSave() -> ActionSheet {
+        ActionSheet(
+            title: Text("Save Timer?"),
+            message: Text("You have not saved your timer.\nExit anyway?"),
+            buttons: [
+                .cancel(),
+                .destructive(Text("Exit"),
+                             action: goBack)
+            ]
+        )
+    }
+    
+    
+    private func goBack() {
+        withAnimation {
+            viewRouter.currentPage = isNew ? .timerSelectView : .timerDetailView
+        }
+    }
     
     private func onDelete(offsets: IndexSet) {
         sprintTimer.items.remove(atOffsets: offsets)
@@ -264,7 +296,7 @@ struct TimerEditView: View {
         }
     }
     
-    func valid() -> Bool {
+    private func valid() -> Bool {
         return true
     }
     
@@ -291,7 +323,7 @@ extension EditMode {
     func editLabel() -> String {
         return self == .active ? "Done" : "Edit"
     }
-    /// This handy extension can be used like this.
+    /// This extension can be used like this.
     /// Add this to your view
     ///     @Environment(\.editMode) private var editMode: Binding<EditMode>?
     ///
