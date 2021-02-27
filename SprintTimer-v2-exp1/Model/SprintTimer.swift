@@ -58,6 +58,7 @@ enum TimerType: Decodable, Encodable {
     case fastPace
     case sprint
     case cooldown
+    case finished
     
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -77,6 +78,8 @@ enum TimerType: Decodable, Encodable {
             self = .sprint
         case "Cooldown":
             self = .cooldown
+        case "Finished":
+            self = .finished
         default:
             fatalError()
         }
@@ -100,6 +103,8 @@ enum TimerType: Decodable, Encodable {
             try container.encode("Sprint")
         case .cooldown:
             try container.encode("Cooldown")
+        case .finished:
+            try container.encode("Finished")
 //        default:
 //            fatalError()
         }
@@ -120,6 +125,8 @@ enum TimerType: Decodable, Encodable {
             return "Sprint"
         case .cooldown:
             return "Cooldown"
+        case .finished:
+            return "Finished"
         default:
             return ""
         }

@@ -9,8 +9,8 @@ import SwiftUI
 
 struct TimerDetailRunningView: View {
     
-    var sprintTimer: SprintTimer
-    var timerController: SprintTimerController
+    var sprintTimer: SprintTimer    // Does this need to be @ObservedObject?
+    @ObservedObject var timerController: SprintTimerController
     
     var body: some View {
         HStack {

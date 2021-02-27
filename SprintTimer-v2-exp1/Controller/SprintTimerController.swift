@@ -11,29 +11,12 @@ class SprintTimerController: AppTimer  {
 
     var sprintTimer: SprintTimer
     var timerEvents: [EventDate] = []
+    var nextEvent: EventDate = EventDate()
     
     init (_ sprintTimer: SprintTimer) {
         self.sprintTimer = sprintTimer
     }
     
-    
-    
-    func loadEventsArray() {
-        let startDate: Date = super.date!
-        
-        var dateComponents = Calendar.current.dateComponents([.second], from: startDate)
-        
-        /// Start with zero. I may need to add 1 or 2 seconds to the start.
-        dateComponents.second! = 0
-        /// Add the start time to the array.
-        self.timerEvents.append(EventDate(Calendar.current.date(byAdding: dateComponents, to: startDate)!))
-        
-        for event in sprintTimer.items {
-            /// We have started at 0 now we keep adding duration to the date.
-            dateComponents.second! += event.duration
-            self.timerEvents.append(EventDate(Calendar.current.date(byAdding: dateComponents, to: startDate)!))
-        }
-    }
     
     // MARK: - Overrides for AppTimer
     /// Override the AppTimer.start() func to reset variables.
@@ -43,5 +26,71 @@ class SprintTimerController: AppTimer  {
             loadEventsArray()
         }
     }
+ 
+    override func stop() {
+        super.stop()
+        //self.timerIsActive = false = false  need to set flag to trigger view somehow.
+    }
+    
+    /// Override the AppTimer.updateTimer() func so that we can use the interval trigger in this class too!
+    override func updateTimer() {
+        super.updateTimer()
+        checkForEvent()
+    }
+    // END of AppTimer overrides.
+    
+    
+    func getNextEventDate() {
+        for event in self.timerEvents {
+            if event.date > self.nextEvent.date {
+                self.nextEvent = event
+                return
+            }
+        }
+        //stop()  can't call this here because it will end the timer as the final stage begins.
+        // Unless I add a finished stage?
+    }
+    
+    func loadEventsArray() {
+        let startDate: Date = super.startTime!
+        let curr = Calendar.current
+        self.timerEvents = []
+        var dateComponents = curr.dateComponents([.second], from: startDate)
+        
+        /// Start with zero. I may need to add 1 or 2 seconds to the start.
+        dateComponents.second! = 0
+        for event in sprintTimer.items {
+            self.timerEvents.append(EventDate(curr.date(byAdding: dateComponents,
+                                                        to: startDate)!, event))
+            dateComponents.second! += event.duration
+        }
+        /// Add a finished event.
+        let finish = SprintTimerItem(.finished, 0)
+        self.timerEvents.append(EventDate(curr.date(byAdding: dateComponents,
+                                                    to: startDate)!, finish))
+        /// Set the next event variable to the first event.
+        self.nextEvent = self.timerEvents[0]
+    }
+    
+    func checkForEvent() {
+        let diff = Calendar.current.dateComponents([.second], from: super.date!, to: self.nextEvent.date)
+        print(diff.second!)
+        if diff.second! <= 0 {
+            executeEvent()
+            getNextEventDate()
+        }
+    }
+    
+    func executeEvent() {
+        let current = self.nextEvent
+        
+        print("Event starting for :\(TimerType.displayName(current.event.type))")
+        
+        if current.event.type == .finished {
+            stop()
+        }
+    }
+    
+    
     
 }

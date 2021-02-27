@@ -13,8 +13,10 @@ class AppTimer: ObservableObject {
     @Published var secondsElapsed = 0
     @Published var date: Date?
     
+    public var startTime: Date?
     private var timer: Timer?
-    var startTime: Date?
+    
+    
     
     private func createTimer() {
       //if timer == nil {
@@ -42,6 +44,7 @@ class AppTimer: ObservableObject {
             startTime = Date()
             secondsElapsed = 0
             date = startTime
+            print("AppTimer: \(startTime!)")
         }
         else {
             // Update startTime by subtracting secondsElapsed when paused from current date.
