@@ -44,7 +44,7 @@ class AppTimer: ObservableObject {
             startTime = Date()
             secondsElapsed = 0
             date = startTime
-            print("AppTimer: \(startTime!)")
+            //print("AppTimer: \(startTime!)")
         }
         else {
             // Update startTime by subtracting secondsElapsed when paused from current date.

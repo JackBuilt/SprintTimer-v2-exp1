@@ -11,9 +11,13 @@ struct TimerDetailView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     @ObservedObject var timerController: SprintTimerController
-    @State private var timerIsActive: Bool = false
-    @State private var showActiveAlert: Bool = false
+    //@State private var showActiveAlert: Bool = false
     private var sprintTimer: SprintTimer
+    
+    /// If this is true and timerController.timerIsActive is false, show TimerDetailCompletedView view.
+    @State private var allowCompletionView: Bool = false
+    
+    
     
     
     init(_ sprintTimer: SprintTimer)
@@ -27,12 +31,15 @@ struct TimerDetailView: View {
         VStack {
             Section {
                 List {
-                    if self.timerIsActive {
+                    if timerController.timerIsActive {
                         TimerDetailRunningView(sprintTimer: self.sprintTimer, timerController: self.timerController)
                     }
+                    else if self.allowCompletionView && !timerController.timerIsActive {
+                        TimerDetailCompletedView(allowCompletionView: $allowCompletionView)
+                    }                    
                     else {
                         TimerDetailSummaryView(sprintTimer: self.sprintTimer)
-                    }   
+                    }
                 }
                 .listStyle(InsetGroupedListStyle())
                 .toolbar {
@@ -57,51 +64,54 @@ struct TimerDetailView: View {
                 .navigationBarTitle("\(sprintTimer.name)", displayMode: .inline)
             }
             
-            Section {
-                HStack {
-                    Spacer()
-                    VStack(spacing: 20) {
-                        // Buttons
-                        if timerController.mode == AppTimer.timerMode.stopped {
-                            TimerButton(label: "Start", buttonColor: .green)
-                                .onTapGesture {
-                                    self.timerController.start(true)
-                                    self.timerIsActive = true
-                                    //self.sounds.playSound(.buttonClick)
-                                }
-                        }
-                        else if timerController.mode == AppTimer.timerMode.running {
-                            TimerButton(label: "Pause", buttonColor: .blue)
-                                .onTapGesture {
-                                    self.timerController.pause()
-                                    //self.sounds.playSound(.buttonClick)
-                                }
-                        }
-                        else if timerController.mode == AppTimer.timerMode.paused {
-                            TimerButton(label: "Continue", buttonColor: .purple)
-                                .onTapGesture {
-                                    self.timerController.start(false)
-                                    //self.sounds.playSound(.buttonClick)
-                                }
+            if !self.allowCompletionView || timerController.timerIsActive {
+                Section {
+                    HStack {
+                        Spacer()
+                        VStack(spacing: 20) {
+                            // Buttons
+                            if timerController.mode == AppTimer.timerMode.stopped {
+                                TimerButton(label: "Start", buttonColor: .green)
+                                    .onTapGesture {
+                                        self.timerController.start(true)
+                                        self.allowCompletionView = true
+                                        //self.sounds.playSound(.buttonClick)
+                                    }
+                            }
+                            else if timerController.mode == AppTimer.timerMode.running {
+                                TimerButton(label: "Pause", buttonColor: .blue)
+                                    .onTapGesture {
+                                        self.timerController.pause()
+                                        //self.sounds.playSound(.buttonClick)
+                                    }
+                            }
+                            else if timerController.mode == AppTimer.timerMode.paused {
+                                TimerButton(label: "Continue", buttonColor: .purple)
+                                    .onTapGesture {
+                                        self.timerController.start(false)
+                                        //self.sounds.playSound(.buttonClick)
+                                    }
 
-                            TimerButton(label: "Stop", buttonColor: .red)
-                                .onTapGesture {
-                                    self.timerController.stop()
-                                    self.timerIsActive = false
-                                    //self.sounds.playSound(.buttonClick)
-                                }
+                                TimerButton(label: "Stop", buttonColor: .red)
+                                    .onTapGesture {
+                                        self.timerController.stop()
+                                        self.allowCompletionView = false
+                                        //self.sounds.playSound(.buttonClick)
+                                    }
+                            }
                         }
+                        Spacer()
                     }
-                    Spacer()
-                }
-            }   // END Section
-            .padding(10)
+                }   // END Section
+                .padding(10)
+            }
         }
     }
     
     
     func editTimer() {
-        //self.timerController.stop()
+        self.timerController.stop()
+        self.allowCompletionView = false
         viewRouter.selectedTimer = sprintTimer
         withAnimation {
             viewRouter.currentPage = .timerEditView
@@ -109,7 +119,8 @@ struct TimerDetailView: View {
     }
     
     func closeTimer() {
-        //self.timerController.stop()
+        self.timerController.stop()
+        self.allowCompletionView = false
         withAnimation {
             viewRouter.currentPage = .timerSelectView
         }

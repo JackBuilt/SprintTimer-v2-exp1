@@ -32,6 +32,8 @@
 		04B0D73025E6276200A7C462 /* SprintTimerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D72F25E6276200A7C462 /* SprintTimerController.swift */; };
 		04B0D73425E627EF00A7C462 /* AppTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D73325E627EF00A7C462 /* AppTimer.swift */; };
 		04B0D73725E8B33500A7C462 /* EventDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D73625E8B33500A7C462 /* EventDate.swift */; };
+		04B0D73A25EBFD8F00A7C462 /* TimerDetailCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D73925EBFD8F00A7C462 /* TimerDetailCompletedView.swift */; };
+		04B0D74125EC58AB00A7C462 /* SmallDisplayCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D74025EC58AB00A7C462 /* SmallDisplayCheck.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		04B0D72F25E6276200A7C462 /* SprintTimerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintTimerController.swift; sourceTree = "<group>"; };
 		04B0D73325E627EF00A7C462 /* AppTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTimer.swift; sourceTree = "<group>"; };
 		04B0D73625E8B33500A7C462 /* EventDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDate.swift; sourceTree = "<group>"; };
+		04B0D73925EBFD8F00A7C462 /* TimerDetailCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDetailCompletedView.swift; sourceTree = "<group>"; };
+		04B0D74025EC58AB00A7C462 /* SmallDisplayCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallDisplayCheck.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +153,7 @@
 				04B0D71925E2F33700A7C462 /* EditItemView.swift */,
 				04B0D71C25E32A5F00A7C462 /* AddItemView.swift */,
 				04B0D72B25E6260400A7C462 /* TimerDetailRunningView.swift */,
+				04B0D73925EBFD8F00A7C462 /* TimerDetailCompletedView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 				04B0D70125E213FC00A7C462 /* Format.swift */,
 				04B0D71325E2BD9600A7C462 /* Color.swift */,
 				04B0D71625E2DCD200A7C462 /* Fetch.swift */,
+				04B0D74025EC58AB00A7C462 /* SmallDisplayCheck.swift */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -252,6 +258,7 @@
 			files = (
 				04B0D71125E2BD6400A7C462 /* TimerButton.swift in Sources */,
 				04B0D6EA25E203DB00A7C462 /* SprintTimer.swift in Sources */,
+				04B0D73A25EBFD8F00A7C462 /* TimerDetailCompletedView.swift in Sources */,
 				04B0D70525E2B05D00A7C462 /* TimerEditView.swift in Sources */,
 				04B0D72625E4BA9200A7C462 /* MainPicker.swift in Sources */,
 				04B0D6FE25E2119F00A7C462 /* SprintTimerLabel.swift in Sources */,
@@ -265,6 +272,7 @@
 				04B0D6F725E20F0B00A7C462 /* ViewRouter.swift in Sources */,
 				04B0D70225E213FC00A7C462 /* Format.swift in Sources */,
 				04B0D72925E6249B00A7C462 /* TimerDetailSummaryView.swift in Sources */,
+				04B0D74125EC58AB00A7C462 /* SmallDisplayCheck.swift in Sources */,
 				04B0D6FB25E210B900A7C462 /* TimerSelectView.swift in Sources */,
 				04B0D73725E8B33500A7C462 /* EventDate.swift in Sources */,
 				04B0D6D925E2036B00A7C462 /* SprintTimer_v2_exp1App.swift in Sources */,

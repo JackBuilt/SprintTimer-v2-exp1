@@ -9,26 +9,66 @@ import SwiftUI
 
 struct SprintTimerLabel: View {
     
-    var name: String
-    var value: String
+    private var name: String
+    private var nameColor: Color = Color("SprintTimerLabelColor")
+    private var value: String
+    private var valueColor: Color = Color("SprintTimerLabelColor")
+    private var altText: String = ""
+    private var altTextColor: Color = Color("SprintTimerLabelColor")
     
-    init(name: String, value: String) {
+    private var isSmallDisplay: Bool = false
+    private var fontSize: Font {isSmallDisplay ? .headline : .title2 }
+    
+    
+    init(name: String, value: String,
+         nameColor: Color = Color("SprintTimerLabelColor"),
+         valueColor: Color = Color("SprintTimerLabelColor"),
+         smallDisplay: Bool = false) {
         self.name = name
         self.value = value
+        self.nameColor = nameColor
+        self.valueColor = valueColor
+        self.isSmallDisplay = smallDisplay
     }
+    
+    init(name: String, value: String, altText: String,
+         nameColor: Color = Color("SprintTimerLabelColor"),
+         valueColor: Color = Color("SprintTimerLabelColor"),
+         altTextColor: Color = Color("SprintTimerLabelColor"),
+         smallDisplay: Bool = false) {
+        self.name = name
+        self.value = value
+        self.altText = altText
+        self.nameColor = nameColor
+        self.valueColor = valueColor
+        self.altTextColor = altTextColor
+        self.isSmallDisplay = smallDisplay
+    }
+    
     
     var body: some View {
         HStack(alignment: .center) {
+            /// Primary label
             Text("\(name)")
-                .font(.title2)
-                .foregroundColor(Color("SprintTimerLabelColor"))
+                .font(fontSize)
+                .foregroundColor(nameColor)
             
             Spacer()
+            /// Secondaty label
+            if altText != "" {
+                Text(" \(altText)")
+                    .font(fontSize)
+                    .foregroundColor(altTextColor)
+                    //.background(Color(.gray))   // Comment
+            }
             
+            /// Value label
             Text("\(value)")
                 .font(.custom("Avenir", size: 20))
                 .fontWeight(.bold)
-                .foregroundColor(Color("SprintTimerLabelColor"))
+                .foregroundColor(valueColor)
+                .frame(minWidth: 60, alignment: .trailing)
+                //.background(Color(.gray))   // Comment
         }
         .multilineTextAlignment(.center)
     }
