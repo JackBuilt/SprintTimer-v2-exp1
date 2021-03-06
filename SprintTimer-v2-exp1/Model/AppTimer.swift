@@ -13,7 +13,7 @@ class AppTimer: ObservableObject {
     @Published var secondsElapsed = 0
     @Published var date: Date?
     
-    public var startTime: Date?
+    @Published public var startTime: Date?
     private var timer: Timer?
     
     
@@ -50,6 +50,7 @@ class AppTimer: ObservableObject {
             // Update startTime by subtracting secondsElapsed when paused from current date.
             let newTime = Date()
             startTime = newTime.addingTimeInterval(TimeInterval(-secondsElapsed))
+            date = newTime
         }
         createTimer()
     }
