@@ -21,30 +21,54 @@ struct TimerDetailRunningView: View {
     
     
     var body: some View {
-        HStack {
-            Text("Total Time")
-                .font(.title2)
-                .foregroundColor(Color("AccentColor"))
-            Spacer()
-            Text("\(formatSecondsToTimeString(self.sprintTimer.totalTime()))")
-                .font(.title2)
+        Section {
+            SprintTimerLabel(name: "Total Time",
+                             value: "\(formatSecondsToTimeString(self.sprintTimer.totalTime()))",
+                             nameColor: Color("AccentColor"),
+                             smallDisplay: isSmallDisplay)
         }
         
         Section(header: Text("Activity Details").padding(.leading, 20)) {
-            SprintTimerLabel(name: "Elapsed Time", value: "\(timerController.secondsElapsed)",
+            SprintTimerLabel(name: "Elapsed Time",
+                             value: "\(formatSecondsToTimeString(timerController.secondsElapsed))",
                              smallDisplay: isSmallDisplay)
+//            SprintTimerLabel(name: "Next Interval",
+//                             value: "\(TimerType.displayName(timerController.nextEvent.event.type))",
+//                             valueColor: getEventColor(timerController.nextEvent.event.type),
+//                             smallDisplay: isSmallDisplay)
             SprintTimerLabel(name: "Next Interval",
-                             value: "\(TimerType.displayName(timerController.nextEvent.event.type))",
+                             value: "",
+                             altText: "\(TimerType.displayName(timerController.nextEvent.event.type))",
+                             altTextColor: getEventColor(timerController.nextEvent.event.type),
                              smallDisplay: isSmallDisplay)
+            
             SprintTimerLabel(name: "Current Interval",
                              value: "\(formatSecondsToTimeString(timerController.currentEventSecondsRemaining))",
                              altText: "\(TimerType.displayName(timerController.currentEvent.event.type))",
-                             valueColor: .green, altTextColor: .orange,
+                             valueColor: getEventColor(timerController.currentEvent.event.type),
+                             altTextColor: getEventColor(timerController.currentEvent.event.type),
+                             smallDisplay: isSmallDisplay)
+            SprintTimerLabel(name: "Intervals Completed",
+                             value: "\(timerController.completions)",
                              smallDisplay: isSmallDisplay)
             SprintTimerLabel(name: "Time Remaining",
-                             value: "\(sprintTimer.totalTime() - timerController.secondsElapsed)",
+                             value: "\(formatSecondsToTimeString(sprintTimer.totalTime() - timerController.secondsElapsed))",
                              smallDisplay: isSmallDisplay)
         }
+        
+        Section {
+            HStack {
+                Spacer()
+                Text("\(TimerType.displayName(timerController.currentEvent.event.type))")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(getEventColor(timerController.currentEvent.event.type))
+                    .padding(.bottom, 3)
+                    .multilineTextAlignment(.center)
+                Spacer()
+            }
+        }
+        .frame(minHeight: 100)
         
 //        Section {
 //            ForEach(timerController.timerEvents) { event in

@@ -35,7 +35,8 @@ struct TimerDetailView: View {
                         TimerDetailRunningView(sprintTimer: self.sprintTimer, timerController: self.timerController)
                     }
                     else if self.allowCompletionView && !timerController.timerIsActive {
-                        TimerDetailCompletedView(allowCompletionView: $allowCompletionView)
+                        TimerDetailCompletedView(sprintTimer: self.sprintTimer,
+                                                 allowCompletionView: $allowCompletionView)
                     }                    
                     else {
                         TimerDetailSummaryView(sprintTimer: self.sprintTimer)

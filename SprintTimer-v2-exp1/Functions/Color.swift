@@ -8,6 +8,31 @@
 import SwiftUI
 
 
+// MARK: - getEventColor()
+/// Returns a standard app color for the given interval.
+
+func getEventColor(_ type: TimerType) -> Color {
+    var color: Color
+    switch type {
+        case .warmup:
+            color = .yellow
+        case .easyPace:
+            color = .orange
+        case .mediumPace:
+            color = Color(red: 0.900, green: 0.400, blue: 0)
+        case .fastPace:
+            color = Color(red: 1, green: 0.175, blue: 0.265)
+        case .sprint:
+            color = Color(red: 0.750, green: 0, blue: 0)
+        case .cooldown:
+            color = .blue
+        default:
+            color = Color("SprintTimerLabelColor")
+    }
+    return color
+}
+
+
 // MARK: - Gradient Color picker
 /// Designed for buttons specifically.
 

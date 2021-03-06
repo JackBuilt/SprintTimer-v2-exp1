@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-func getTimerItemLabel(timer: SprintTimerItem) -> SprintTimerLabel {
-    return SprintTimerLabel(name: TimerType.displayName(timer.type),
-                            value: formatSecondsToTimeString(timer.duration))
-}
+//func getTimerItemLabel(timer: SprintTimerItem) -> SprintTimerLabel {
+//    return SprintTimerLabel(name: TimerType.displayName(timer.type),
+//                            value: formatSecondsToTimeString(timer.duration))
+//}

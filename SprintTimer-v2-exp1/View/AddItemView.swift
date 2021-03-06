@@ -46,7 +46,7 @@ struct AddItemView: View {
                 HStack {
                     Text("Add Interval Type")
                         .font(.largeTitle)
-                        .foregroundColor(.orange)
+                        .foregroundColor(Color("AccentColor"))
                 }
             }
             
@@ -58,10 +58,17 @@ struct AddItemView: View {
                         self.isChanged = true
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
-                        Text("\(TimerType.displayName(item.type))")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("SprintTimerLabelColor"))
+                        HStack {
+                            Circle()
+                                .fill(getEventColor(item.type))
+                                .frame(width: 25, height: 25)
+                                .padding(.trailing, 10)
+                            
+                            Text("\(TimerType.displayName(item.type))")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("SprintTimerLabelColor"))
+                        }
                     })
                     
                 }

@@ -16,18 +16,22 @@ struct SprintTimerLabel: View {
     private var altText: String = ""
     private var altTextColor: Color = Color("SprintTimerLabelColor")
     
+    private var colorSwatch: Color = Color.clear
     private var isSmallDisplay: Bool = false
-    private var fontSize: Font {isSmallDisplay ? .headline : .title2 }
+    private var fontSize: Font {isSmallDisplay ? .callout : .title2 }
+    private var altFontSize: Font {isSmallDisplay ? .footnote : .body }
     
     
     init(name: String, value: String,
          nameColor: Color = Color("SprintTimerLabelColor"),
          valueColor: Color = Color("SprintTimerLabelColor"),
+         colorSwatch: Color = Color.clear,
          smallDisplay: Bool = false) {
         self.name = name
         self.value = value
         self.nameColor = nameColor
         self.valueColor = valueColor
+        self.colorSwatch = colorSwatch
         self.isSmallDisplay = smallDisplay
     }
     
@@ -35,6 +39,7 @@ struct SprintTimerLabel: View {
          nameColor: Color = Color("SprintTimerLabelColor"),
          valueColor: Color = Color("SprintTimerLabelColor"),
          altTextColor: Color = Color("SprintTimerLabelColor"),
+         colorSwatch: Color = Color.clear,
          smallDisplay: Bool = false) {
         self.name = name
         self.value = value
@@ -42,12 +47,20 @@ struct SprintTimerLabel: View {
         self.nameColor = nameColor
         self.valueColor = valueColor
         self.altTextColor = altTextColor
+        self.colorSwatch = colorSwatch
         self.isSmallDisplay = smallDisplay
     }
     
     
     var body: some View {
         HStack(alignment: .center) {
+            /// Color swatch
+            if colorSwatch != Color.clear {
+                Rectangle()
+                    .fill(colorSwatch)
+                    .frame(width: 7, height: 25)
+                    .padding(.trailing, 5)
+            }
             /// Primary label
             Text("\(name)")
                 .font(fontSize)
@@ -57,7 +70,7 @@ struct SprintTimerLabel: View {
             /// Secondaty label
             if altText != "" {
                 Text(" \(altText)")
-                    .font(fontSize)
+                    .font(altFontSize)
                     .foregroundColor(altTextColor)
                     //.background(Color(.gray))   // Comment
             }

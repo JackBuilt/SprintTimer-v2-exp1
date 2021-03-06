@@ -9,19 +9,39 @@ import SwiftUI
 
 struct TimerDetailCompletedView: View {
     
+    var sprintTimer: SprintTimer
     @Binding var allowCompletionView: Bool
-    //var timerController: SprintTimerController
     
     var body: some View {
-        VStack {
-            Text("Great job!\nYou've completed your workout.")
-            
+        Section {
+            HStack {
+                Spacer()
+                VStack(alignment: .center) {
+                    Text("Great job!")
+                        .font(.title)
+                        .foregroundColor(.green)
+                    Text("You've completed your workout.")
+                        .font(.title3)
+                        .foregroundColor(Color("SprintTimerLabelColor"))
+                }
+                Spacer()
+            }
+        }
+                    
+        Section(header: Text("Completed Activities Summary").padding(.leading, 20)) {
+            ForEach(sprintTimer.items) { item in
+                SprintTimerLabel(name: TimerType.displayName(item.type),
+                                 value: formatSecondsToTimeString(item.duration),
+                                 colorSwatch: getEventColor(item.type))
+            }
+        }
+        
+        Section {
             HStack {
                 Spacer()
                 TimerButton(label: "Close", buttonColor: .purple)
                     .onTapGesture {
                         self.allowCompletionView = false
-                        //timerController.setShowCompletionView(false)
                     }
                 Spacer()
             }

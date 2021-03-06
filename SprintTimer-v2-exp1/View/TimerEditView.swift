@@ -98,12 +98,15 @@ struct TimerEditView: View {
                                 self.selectedItem = item
                                 self.showItemView = .editItem
                             }, label: {
-                                getTimerItemLabel(timer: item)
+                                SprintTimerLabel(name: TimerType.displayName(item.type),
+                                                 value: formatSecondsToTimeString(item.duration),
+                                                 colorSwatch: getEventColor(item.type))
                             })
                         }
                         .onDelete(perform: onDelete)
                         .onMove(perform: onMove)
                     }
+                    .textCase(nil) /// This will stop the default upper case.
                 }
                 .listStyle(InsetGroupedListStyle())
                 .toolbar {

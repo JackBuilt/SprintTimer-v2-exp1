@@ -23,7 +23,9 @@ struct TimerDetailSummaryView: View {
         
         Section(header: Text("Activity Summary").padding(.leading, 20)) {
             ForEach(sprintTimer.items) { item in
-                getTimerItemLabel(timer: item)
+                SprintTimerLabel(name: TimerType.displayName(item.type),
+                                 value: formatSecondsToTimeString(item.duration),
+                                 colorSwatch: getEventColor(item.type))
             }
         }
     }

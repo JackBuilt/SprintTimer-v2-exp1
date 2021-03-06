@@ -5,7 +5,7 @@
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 \
+\f0\fs36 \cf0 \
 \
 TODO:\
 \
@@ -14,9 +14,17 @@ The Save and Delete buttons need to move to a TabBar\
 Timer Detail needs a summary section at the top.\
 \
 The edit buttons should be disabled if there are no records to edit.\
+	This one is a little tricky to do gracefully.\
 \
 When a new item is added but the back button is pressed without saving, the items is not saved to json but it is not removed from the array\
-so it displays in the detail view.\
+so it still displays in the detail view. Going all the way back to timer list and reentering displays expected results.\
 	Maybe force a reload of detail view when coming from edit items view?\
 \
+\
+\
+\
+FUTURE:\
+\
+Add ability to save workout data at the end?\
+	This would also mean creating views to review and delete past workouts.\
 }

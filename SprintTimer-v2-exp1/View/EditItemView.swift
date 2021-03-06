@@ -40,7 +40,7 @@ struct EditItemView: View {
                 HStack {
                     Text("Edit Interval Duration")
                         .font(.largeTitle)
-                        .foregroundColor(.orange)
+                        .foregroundColor(Color("AccentColor"))
                 }
             }
             
