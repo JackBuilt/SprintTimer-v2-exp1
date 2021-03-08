@@ -11,7 +11,7 @@ struct TimerDetailCompletedView: View {
     
     var sprintTimer: SprintTimer
     @Binding var allowCompletionView: Bool
-    
+
     var body: some View {
         Section {
             HStack {
@@ -28,7 +28,7 @@ struct TimerDetailCompletedView: View {
             }
         }
                     
-        Section(header: Text("Completed Activities Summary").padding(.leading, 20)) {
+        Section(header: Text("Completed Program Summary").padding(.leading, 20)) {
             ForEach(sprintTimer.items) { item in
                 SprintTimerLabel(name: TimerType.displayName(item.type),
                                  value: formatSecondsToTimeString(item.duration),
@@ -36,17 +36,40 @@ struct TimerDetailCompletedView: View {
             }
         }
         
-        Section {
+        Section(footer: Text("\(getCompletedTime())").padding(.leading, 10)) {
             HStack {
+                Text("Total Time")
+                    .font(.title2)
+                    .foregroundColor(Color("AccentColor"))
                 Spacer()
-                TimerButton(label: "Close", buttonColor: .purple)
-                    .onTapGesture {
-                        self.allowCompletionView = false
-                    }
-                Spacer()
+                Text("\(formatSecondsToTimeString(self.sprintTimer.totalTime()))")
+                    .font(.title2)
             }
         }
+        
+//        Section {
+//            HStack {
+//                Spacer()
+//                TimerButton(label: "Close", buttonColor: .purple)
+//                    .onTapGesture {
+//                        self.allowCompletionView = false
+//                    }
+//                Spacer()
+//            }
+//        }
     }
+    
+    private func getCompletedTime() -> String {
+        let text = "Workout completed on \(format.string(from: Date()))"
+        return text
+    }
+    
+    private let format: DateFormatter = {
+        let formatter = DateFormatter()
+        //formatter.dateStyle = .long
+        formatter.dateFormat = "EEEE, MMM d, yyyy 'at' h:mm a"
+        return formatter
+    }()
 }
 
 

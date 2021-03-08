@@ -20,6 +20,7 @@ class SprintTimerController: AppTimer  {
     private var sprintTimer: SprintTimer
     private var timerEvents: [EventDate] = []
     private let bgSounds: TimerSounds = TimerSounds()
+    private let eventSounds: TimerSounds = TimerSounds()
     
     
     init (_ sprintTimer: SprintTimer) {
@@ -74,11 +75,18 @@ class SprintTimerController: AppTimer  {
     private func executeEvent() {
         let current = self.nextEvent
         
-        print("Event starting for :\(TimerType.displayName(current.event.type))")
-        
         if current.event.type == .finished {
             stop()
+            /// Play workout completed sound.
+            self.eventSounds.Play(.workoutCompleted)
+            
+            return
         }
+        
+        print("Event starting for :\(TimerType.displayName(current.event.type))")
+        
+        /// Play a sound to alert user that a new interval has begun.
+        self.eventSounds.Play(.intervalStart)
     }
     
     /// Called when resetting the timer.

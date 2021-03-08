@@ -6,14 +6,15 @@
 //
 
 import AVFoundation
-var audioPlayer: AVAudioPlayer?
+//var audioPlayer: AVAudioPlayer?
 
 class SoundPlayer {
 
     /// Adding ref here will cause sounds to sometimes not play.
-    /// Adding ref to the global scope (as in just below imports) it works.
+    /// Adding ref to the global scope (as in just below imports) works.
+    /// The big downside to a global ref is you only get one sound so I can't have a bg sound or multiple sounds.
     /// The "No factory registered" error seems to only be related to simulators.
-    //var audioPlayer: AVAudioPlayer? // Or var audioPlayer: AVAudioPlayer!
+    var audioPlayer: AVAudioPlayer? // Or var audioPlayer: AVAudioPlayer!
 
     func Play(sound: String, type: String, loop: Int = 0, volume: Float = 1) {
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers, .allowAirPlay])

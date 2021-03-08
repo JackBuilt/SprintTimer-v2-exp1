@@ -10,7 +10,7 @@ import SwiftUI
 struct TimerButton: View {
     let label: String
     var buttonColor: gradientColors
-    var buttonWidth: CGFloat = 200
+    var buttonWidth: CGFloat = 150
     var disabled: Bool = false
     
     var body: some View {
@@ -44,5 +44,6 @@ struct TimerButton: View {
 struct TimerButton_Previews: PreviewProvider {
     static var previews: some View {
         TimerButton(label: "Start", buttonColor: .purple)
+            .preferredColorScheme(.dark)
     }
 }

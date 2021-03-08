@@ -37,11 +37,14 @@ struct TimerEditView: View {
     @State private var isChanged: Bool = false
     private var isNew: Bool
     
+    private let rollback: SprintTimer
 
     init(_ sprintTimer: SprintTimer, newTimer: Bool = false)
     {
         self.sprintTimer = sprintTimer
         self.isNew = newTimer
+        
+        self.rollback = sprintTimer.copy()
     }
     
     
@@ -60,7 +63,7 @@ struct TimerEditView: View {
                         TextField("Name", text: $sprintTimer.name)
                             .onChange(of: sprintTimer.name) { newValue in
                                 self.isChanged = true
-                                print("Name changed!")
+                                //print("Name changed!")
                             }
                             .padding(.leading, 5)
                             .padding(3)
@@ -252,11 +255,17 @@ struct TimerEditView: View {
             buttons: [
                 .cancel(),
                 .destructive(Text("Exit"),
-                             action: goBack)
+                             action: rollBack)
             ]
         )
     }
     
+    
+    private func rollBack() {
+        /// Rollback sprintTimer.items to what we started with.
+        sprintTimer.items = rollback.items
+        goBack()
+    }
     
     private func goBack() {
         withAnimation {

@@ -33,10 +33,12 @@ struct TimerDetailView: View {
                 List {
                     if timerController.timerIsActive {
                         TimerDetailRunningView(sprintTimer: self.sprintTimer, timerController: self.timerController)
+//                            .transition(AnyTransition.opacity
+//                                            .animation(.easeInOut(duration: 0.5)))
                     }
                     else if self.allowCompletionView && !timerController.timerIsActive {
                         TimerDetailCompletedView(sprintTimer: self.sprintTimer,
-                                                 allowCompletionView: $allowCompletionView)
+                                                 allowCompletionView: self.$allowCompletionView)
                     }                    
                     else {
                         TimerDetailSummaryView(sprintTimer: self.sprintTimer)
@@ -66,45 +68,53 @@ struct TimerDetailView: View {
             }
             
             if !self.allowCompletionView || timerController.timerIsActive {
-                Section {
-                    HStack {
-                        Spacer()
-                        VStack(spacing: 20) {
-                            // Buttons
-                            if timerController.mode == AppTimer.timerMode.stopped {
-                                TimerButton(label: "Start", buttonColor: .green)
-                                    .onTapGesture {
+                HStack {
+                    Spacer()
+                    VStack(spacing: 20) {
+                        // Buttons
+                        if timerController.mode == AppTimer.timerMode.stopped {
+                            TimerButton(label: "Start", buttonColor: .green)
+                                .onTapGesture {
+                                    //withAnimation {
                                         self.timerController.start(true)
                                         self.allowCompletionView = true
                                         //self.sounds.playSound(.buttonClick)
-                                    }
-                            }
-                            else if timerController.mode == AppTimer.timerMode.running {
-                                TimerButton(label: "Pause", buttonColor: .blue)
-                                    .onTapGesture {
-                                        self.timerController.pause()
-                                        //self.sounds.playSound(.buttonClick)
-                                    }
-                            }
-                            else if timerController.mode == AppTimer.timerMode.paused {
-                                TimerButton(label: "Continue", buttonColor: .purple)
-                                    .onTapGesture {
-                                        self.timerController.start(false)
-                                        //self.sounds.playSound(.buttonClick)
-                                    }
-
-                                TimerButton(label: "Stop", buttonColor: .red)
-                                    .onTapGesture {
-                                        self.timerController.stop()
-                                        self.allowCompletionView = false
-                                        //self.sounds.playSound(.buttonClick)
-                                    }
-                            }
+                                    //}
+                                }
                         }
-                        Spacer()
+                        else if timerController.mode == AppTimer.timerMode.running {
+                            TimerButton(label: "Pause", buttonColor: .blue)
+                                .onTapGesture {
+                                    self.timerController.pause()
+                                    //self.sounds.playSound(.buttonClick)
+                                }
+                        }
+                        else if timerController.mode == AppTimer.timerMode.paused {
+                            TimerButton(label: "Stop", buttonColor: .red)
+                                .onTapGesture {
+                                    self.timerController.stop()
+                                    self.allowCompletionView = false
+                                    //self.sounds.playSound(.buttonClick)
+                                }
+                            TimerButton(label: "Resume", buttonColor: .purple)
+                                .onTapGesture {
+                                    self.timerController.start(false)
+                                    //self.sounds.playSound(.buttonClick)
+                                }
+                        }
                     }
-                }   // END Section
-                .padding(10)
+                    Spacer()
+                }
+            }
+            else if self.allowCompletionView {
+                HStack {
+                    Spacer()
+                    TimerButton(label: "Close", buttonColor: .purple)
+                        .onTapGesture {
+                            self.allowCompletionView = false
+                        }
+                    Spacer()
+                }
             }
         }
     }
@@ -137,5 +147,6 @@ struct TimerDetailView_Previews: PreviewProvider {
     }
     static var previews: some View {
         TimerDetailView(timer())
+            .preferredColorScheme(.dark)
     }
 }

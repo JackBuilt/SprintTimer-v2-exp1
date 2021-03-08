@@ -32,15 +32,16 @@ struct TimerDetailRunningView: View {
             SprintTimerLabel(name: "Elapsed Time",
                              value: "\(formatSecondsToTimeString(timerController.secondsElapsed))",
                              smallDisplay: isSmallDisplay)
-//            SprintTimerLabel(name: "Next Interval",
-//                             value: "\(TimerType.displayName(timerController.nextEvent.event.type))",
-//                             valueColor: getEventColor(timerController.nextEvent.event.type),
-//                             smallDisplay: isSmallDisplay)
+
             SprintTimerLabel(name: "Next Interval",
                              value: "",
                              altText: "\(TimerType.displayName(timerController.nextEvent.event.type))",
                              altTextColor: getEventColor(timerController.nextEvent.event.type),
+                             iconTrailing: getIntervalArrow(),
+                             //iconTrailingColor: getEventColor(timerController.nextEvent.event.type),
+                             iconTrailingColor: Color(red: 0.75, green: 0, blue: 0),
                              smallDisplay: isSmallDisplay)
+            /// Should iconTrailingColor always be red since the icon is a heart?
             
             SprintTimerLabel(name: "Current Interval",
                              value: "\(formatSecondsToTimeString(timerController.currentEventSecondsRemaining))",
@@ -48,9 +49,11 @@ struct TimerDetailRunningView: View {
                              valueColor: getEventColor(timerController.currentEvent.event.type),
                              altTextColor: getEventColor(timerController.currentEvent.event.type),
                              smallDisplay: isSmallDisplay)
+            
             SprintTimerLabel(name: "Intervals Completed",
                              value: "\(timerController.completions)",
                              smallDisplay: isSmallDisplay)
+            
             SprintTimerLabel(name: "Time Remaining",
                              value: "\(formatSecondsToTimeString(sprintTimer.totalTime() - timerController.secondsElapsed))",
                              smallDisplay: isSmallDisplay)
@@ -70,11 +73,25 @@ struct TimerDetailRunningView: View {
         }
         .frame(minHeight: 100)
         
-//        Section {
-//            ForEach(timerController.timerEvents) { event in
-//                Text("\(event.date)")
-//            }
-//        }
     }
+    
+    private func getIntervalArrow() -> String {
+        
+        if timerController.nextEvent.event.type == .finished {
+            return ""
+        }
+        
+        let current = TimerType.typeValue(timerController.currentEvent.event.type)
+        let next = TimerType.typeValue(timerController.nextEvent.event.type)
+        
+        if next > current {
+            return "arrow.up.heart.fill"
+        }
+        else {
+            return "arrow.down.heart.fill"
+        }
+    }
+    
+    
 }
 

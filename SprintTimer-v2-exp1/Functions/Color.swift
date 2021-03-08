@@ -51,25 +51,25 @@ func getGradientColor(_ color: gradientColors) -> LinearGradient {
     switch color {
     case .red:
         lightColor = Color(red: 1, green: 0, blue: 0)
-        darkColor = Color(red: 0.75, green: 0, blue: 0)
+        darkColor = Color(red: 0.35, green: 0, blue: 0)
         return LinearGradient(gradient: Gradient(colors: [lightColor, darkColor]),
                               startPoint: .top, endPoint: .bottom)
     
     case .green:
         lightColor = Color(red: 0, green: 0.8, blue: 0)
-        darkColor = Color(red: 0, green: 0.62, blue: 0)
+        darkColor = Color(red: 0, green: 0.35, blue: 0)
         return LinearGradient(gradient: Gradient(colors: [lightColor, darkColor]),
                               startPoint: .top, endPoint: .bottom)
         
     case .blue:
         lightColor = Color(red: 0, green: 0, blue: 1)
-        darkColor = Color(red: 0, green: 0, blue: 0.75)
+        darkColor = Color(red: 0, green: 0, blue: 0.35)
         return LinearGradient(gradient: Gradient(colors: [lightColor, darkColor]),
                               startPoint: .top, endPoint: .bottom)
     
     case .purple:
         lightColor = Color(red: 0.35, green: 0, blue: 0.84)
-        darkColor = Color(red: 0.30, green: 0, blue: 0.62)
+        darkColor = Color(red: 0.29, green: 0, blue: 0.45)
         return LinearGradient(gradient: Gradient(colors: [lightColor, darkColor]),
                               startPoint: .top, endPoint: .bottom)
     }

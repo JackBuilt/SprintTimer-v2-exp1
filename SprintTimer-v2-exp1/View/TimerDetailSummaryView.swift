@@ -21,7 +21,7 @@ struct TimerDetailSummaryView: View {
                 .font(.title2)
         }
         
-        Section(header: Text("Activity Summary").padding(.leading, 20)) {
+        Section(header: Text("Program Summary").padding(.leading, 20)) {
             ForEach(sprintTimer.items) { item in
                 SprintTimerLabel(name: TimerType.displayName(item.type),
                                  value: formatSecondsToTimeString(item.duration),

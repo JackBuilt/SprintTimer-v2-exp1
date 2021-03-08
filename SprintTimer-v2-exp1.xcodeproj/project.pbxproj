@@ -11,6 +11,8 @@
 		0470F69A25F3DC1100BBC198 /* heartbeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0470F69625F3DC1100BBC198 /* heartbeat.mp3 */; };
 		0470F69B25F3DC1100BBC198 /* one-minute-of-silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0470F69725F3DC1100BBC198 /* one-minute-of-silence.mp3 */; };
 		0470F69C25F3DC1100BBC198 /* TimerSounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470F69825F3DC1100BBC198 /* TimerSounds.swift */; };
+		0470F6D825F584FA00BBC198 /* sound-start-interval.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0470F6D725F584FA00BBC198 /* sound-start-interval.mp3 */; };
+		0470F6DC25F5866200BBC198 /* workout-completed.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0470F6DB25F5866200BBC198 /* workout-completed.wav */; };
 		04B0D6D925E2036B00A7C462 /* SprintTimer_v2_exp1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D6D825E2036B00A7C462 /* SprintTimer_v2_exp1App.swift */; };
 		04B0D6DB25E2036B00A7C462 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0D6DA25E2036B00A7C462 /* ContentView.swift */; };
 		04B0D6DD25E2036C00A7C462 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B0D6DC25E2036C00A7C462 /* Assets.xcassets */; };
@@ -45,6 +47,8 @@
 		0470F69625F3DC1100BBC198 /* heartbeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = heartbeat.mp3; sourceTree = "<group>"; };
 		0470F69725F3DC1100BBC198 /* one-minute-of-silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "one-minute-of-silence.mp3"; sourceTree = "<group>"; };
 		0470F69825F3DC1100BBC198 /* TimerSounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerSounds.swift; sourceTree = "<group>"; };
+		0470F6D725F584FA00BBC198 /* sound-start-interval.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "sound-start-interval.mp3"; sourceTree = "<group>"; };
+		0470F6DB25F5866200BBC198 /* workout-completed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "workout-completed.wav"; sourceTree = "<group>"; };
 		04B0D6D525E2036B00A7C462 /* SprintTimer-v2-exp1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SprintTimer-v2-exp1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B0D6D825E2036B00A7C462 /* SprintTimer_v2_exp1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintTimer_v2_exp1App.swift; sourceTree = "<group>"; };
 		04B0D6DA25E2036B00A7C462 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -92,8 +96,10 @@
 			children = (
 				0470F69625F3DC1100BBC198 /* heartbeat.mp3 */,
 				0470F69725F3DC1100BBC198 /* one-minute-of-silence.mp3 */,
+				0470F6D725F584FA00BBC198 /* sound-start-interval.mp3 */,
 				0470F69525F3DC1100BBC198 /* SoundPlayer.swift */,
 				0470F69825F3DC1100BBC198 /* TimerSounds.swift */,
+				0470F6DB25F5866200BBC198 /* workout-completed.wav */,
 			);
 			path = Sound;
 			sourceTree = "<group>";
@@ -263,7 +269,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0470F6DC25F5866200BBC198 /* workout-completed.wav in Resources */,
 				04B0D6E025E2036C00A7C462 /* Preview Assets.xcassets in Resources */,
+				0470F6D825F584FA00BBC198 /* sound-start-interval.mp3 in Resources */,
 				04B0D72025E332F200A7C462 /* ReadMe.rtf in Resources */,
 				0470F69B25F3DC1100BBC198 /* one-minute-of-silence.mp3 in Resources */,
 				04B0D6DD25E2036C00A7C462 /* Assets.xcassets in Resources */,

@@ -9,7 +9,7 @@ import SwiftUI
 
 
 class SprintTimer: ObservableObject, Identifiable, Decodable, Encodable {
-    
+
     var id: UUID
     var name: String
     var items: [SprintTimerItem]
@@ -26,6 +26,22 @@ class SprintTimer: ObservableObject, Identifiable, Decodable, Encodable {
             time += t.duration
         }
         return time
+    }
+    
+    func copy() -> SprintTimer {
+        let copy = SprintTimer()
+        copy.id = self.id
+        copy.name = self.name
+        
+        for item in self.items {
+            let sti = SprintTimerItem()
+            sti.id = item.id
+            sti.type = item.type
+            sti.duration = item.duration
+            copy.items.append(sti)
+        }
+        
+        return copy
     }
 }
 
@@ -132,4 +148,23 @@ enum TimerType: Decodable, Encodable {
         }
     }
     
+    /// Returns numerical value representing effortv or intensity.
+    static func typeValue(_ type: TimerType) -> Int {
+        switch type {
+        case .warmup:
+            return 1
+        case .easyPace:
+            return 2
+        case .mediumPace:
+            return 3
+        case .fastPace:
+            return 4
+        case .sprint:
+            return 5
+        case .cooldown:
+            return 1
+        default:
+            return 0
+        }
+    }
 }
